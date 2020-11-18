@@ -8,4 +8,7 @@ public abstract class LOVCell extends Cell{
         this.positions = new char[2];
     }
 
+    public void setPositions(char[] positions) {
+        this.positions = positions;
+    }
 }

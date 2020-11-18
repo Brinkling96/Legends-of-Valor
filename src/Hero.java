@@ -73,7 +73,31 @@ public class Hero extends Creature implements HeroAttack{
 	public int getMoney() {
 		return this.money;
 	}
-	
+
+	public int getCellStre() {
+		return cellStre;
+	}
+
+	public int getCellAgi() {
+		return cellAgi;
+	}
+
+	public int getCellDex() {
+		return cellDex;
+	}
+
+	public void setCellStre(int cellStre) {
+		this.cellStre = cellStre;
+	}
+
+	public void setCellAgi(int cellAgi) {
+		this.cellAgi = cellAgi;
+	}
+
+	public void setCellDex(int cellDex) {
+		this.cellDex = cellDex;
+	}
+
 	public int getStreWithBoost() {
 		return this.strength+ this.cellStre;
 	}

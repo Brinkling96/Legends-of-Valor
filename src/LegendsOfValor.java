@@ -13,10 +13,12 @@ public class LegendsOfValor extends MonsterGame {
     //World
 
 
-
-    public LegendsOfValor() {
-
+    public LegendsOfValor(HeroFactory H_factory, ArrayList<Monster> monsterList, MonsterFactory allMonsters, BoardFactory B_Factory, int rows, int columns, ArrayList<Hero> heros, ArrayList<Monster> villains) {
+        super(H_factory, monsterList, allMonsters, B_Factory, rows, columns);
+        Heros = heros;
+        Villains = villains;
     }
+
 
     public static void intro(){
         //d

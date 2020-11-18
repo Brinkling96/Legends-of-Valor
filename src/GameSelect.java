@@ -32,9 +32,9 @@ public class GameSelect {
     		game = new MonsterANDHeroes();
     	}else {
     		LegendsOfValor.intro();
-    		game = new LegendsOfValor();
+    		//game = new LegendsOfValor();
     	}
-    	return game;
+    	return null;
     }
 
     
