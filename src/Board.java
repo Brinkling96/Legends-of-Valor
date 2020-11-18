@@ -9,14 +9,26 @@ public class Board {
 	private Cell[][] board;
 	private int rowNum;
 	private int colNum;
-	
-	public Board(int rowNum, int colNum) {
+
+
+	public Board(Cell[][] board, int rowNum, int colNum) {
+		this.board = board;
 		this.rowNum = rowNum;
 		this.colNum = colNum;
-		board = new Cell[rowNum][colNum];
-		iniBoard();
 	}
-	
+
+	public Board(int rowNum, int colNum) {
+		this(new Cell[rowNum][colNum], rowNum,colNum);
+	}
+
+	public Board(int rowNum) {
+		this(rowNum,rowNum);
+	}
+
+	public Board(){
+		this(8);
+	}
+
 	public int getRowNum() {
 		return this.rowNum;
 	}
@@ -25,25 +37,7 @@ public class Board {
 		return this.colNum;
 	}
 	
-	public void iniBoard() {
-		Random random = new Random();
-		int num;
-		for(int i = 0; i<rowNum; i++) {
-			for(int j = 0; j<colNum; j++) {
-				num = random.nextInt(10);
-				if(num == 0 || num == 1) {
-					board[i][j] = new Cell(i,j,'&');
-				}
-				if(num == 2||num==3||num==4) {
-					board[i][j] = new Cell(i,j,'M');
-				}
-				if(num>4) {
-					board[i][j] = new Cell(i,j,' ');
-				}
-			}
-		}
-		board[rowNum-1][colNum-1] = new Cell(rowNum-1, colNum-1,' ');
-	}
+
 	
 	public void setCell(int row, int col, char cell) {
 		Cell temp = board[row][col];

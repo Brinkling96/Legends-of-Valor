@@ -18,8 +18,7 @@ public class MonsterANDHeroes extends Game{
 	private Market market;
 	private char lastCell = ' ';
 	
-	private MonsterANDHeroes() {
-		
+	public MonsterANDHeroes() {
 	}
 
 	public void intro() {
@@ -41,7 +40,7 @@ public class MonsterANDHeroes extends Game{
 		team.printTeam();
 	}
 	public void GameBegin() {
-		board = new Board(8,8);
+		board =  new MonsterAndHerosBoardFactory().createBoard(8,8);
 		team.setPosition(7,7);
 		board.setCell(7, 7, team.getTeamCell());
 		board.printBoard();
@@ -265,7 +264,7 @@ public class MonsterANDHeroes extends Game{
             num = isInt();
         }
         Hero h = team.getTeamMemb(num);
-        market = new Market();
+        market = Market.getInstance();
         market.visitMarket(h);
         System.out.print("Enter m/M to display map, or anything else to continue moving: ");
         String str = in.next();
@@ -603,10 +602,6 @@ public class MonsterANDHeroes extends Game{
 		intro();
 		GameBegin();
 	}
-	
-	public static void main(String[] args) {
-		MonsterANDHeroes game = new MonsterANDHeroes();
-		game.start();
-	}
+
 	
 }

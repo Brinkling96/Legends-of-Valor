@@ -8,7 +8,9 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Market {
-	//the class initializes all items  
+	//the class initializes all items
+
+	private static Market uniqueMarket;
 	
 	Scanner in = new Scanner(System.in);
     private ArrayList<Item_Weapon> weaponFactory;
@@ -16,7 +18,13 @@ public class Market {
     private ArrayList<Item_Potion> potionFactory;
     private ArrayList<Item_Spell> spellFactory;
 
-    public Market() {
+    public static Market getInstance(){
+    	if (uniqueMarket == null){
+    		uniqueMarket = new Market();
+		}
+    	return uniqueMarket;
+	}
+    private Market() {
     	weaponFactory = new ArrayList<Item_Weapon>();
         armorFactory = new ArrayList<Item_Armor>();
         potionFactory = new ArrayList<Item_Potion>();

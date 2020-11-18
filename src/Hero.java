@@ -13,7 +13,9 @@ public class Hero extends Creature implements HeroAttack {
     protected int strength;
     protected int agility;
     protected int dexterity;
-    
+    protected int cellStre;
+    protected int cellAgi;
+    protected int cellDex;
 
     private int money;
     private int exp;
@@ -71,6 +73,16 @@ public class Hero extends Creature implements HeroAttack {
 	}
 	public int getMoney() {
 		return this.money;
+	}
+	
+	public int getStreWithBoost() {
+		return this.strength+ this.cellStre;
+	}
+	public int getAgilWithBoost() {
+		return this.agility+ this.cellAgi;
+	}
+	public int getDexWithBoost() {
+		return this.dexterity+ this.cellDex;
 	}
 
 	public void addMana(int x) {
