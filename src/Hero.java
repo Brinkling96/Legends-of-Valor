@@ -1,10 +1,8 @@
 package src;
 
-import java.util.ArrayList;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 
-public class Hero extends Creature implements HeroAttack {
+public class Hero extends Creature implements HeroAttack{
 
 	//The class represent all heroes, and extends Creature class
 	//the class also extended by class Hero_Paladins, Hero_Sorcerers, Hero_Warriors
@@ -13,6 +11,7 @@ public class Hero extends Creature implements HeroAttack {
     protected int strength;
     protected int agility;
     protected int dexterity;
+    
     protected int cellStre;
     protected int cellAgi;
     protected int cellDex;
@@ -547,4 +546,5 @@ public class Hero extends Creature implements HeroAttack {
 			}
 		}	
 	}
+
 }

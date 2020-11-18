@@ -2,30 +2,31 @@ package src;
 
 import java.util.ArrayList;
 
-public class Team {
+public class MAHTeam {
 
 	//the class represents the team of heroes chosen by player
-	private ArrayList<Hero> team = new ArrayList<Hero>();
+	private ArrayList<Hero> party;
 	private char cellType;
 	private int row;
 	private int col;
 	
-	public Team(char cellType) {
+	public MAHTeam(ArrayList<Hero> party, char cellType) {
+		this.party = party;
 		this.cellType = cellType;
 	}
 	
 	public void addTeamMemb(Hero h) {
-		team.add(h);
+		party.add(h);
 	}
 	public Hero getTeamMemb(int i) {
-		return team.get(i);
+		return party.get(i);
 	}
-	public ArrayList<Hero> getTeam(){
-		return team;
+	public ArrayList<Hero> getParty(){
+		return party;
 	}
 	public boolean hasRepeatMem(String s) {
-		for(int i = 0; i<team.size(); i++) {
-			Hero h = team.get(i);
+		for(int i = 0; i< party.size(); i++) {
+			Hero h = party.get(i);
 			if(h.name.equals(s)) {
 				System.out.println("You have already selected this hero, please select another one!");
 				return true;
@@ -50,8 +51,8 @@ public class Team {
 	
 	public int getMaxLv() {
         int lv = 0;
-        for(int i = 0; i < team.size(); i++){
-            Hero h = team.get(i);
+        for(int i = 0; i < party.size(); i++){
+            Hero h = party.get(i);
             if(h.getLv()>lv){
                 lv = h.getLv();
             }
@@ -76,8 +77,8 @@ public class Team {
 		System.out.print("\n");
 		System.out.println("Name"+ "                        " + "Magic Power"+ "		   "+"Health Power"+ "              "+ "Strength" + "                "+ "Agility"+ "                 "+"Dexterity"+ "              "+ "Experience"+"              "+ "Level");
 		System.out.println("-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
-        for(int i = 0; i<team.size(); i++) {
-        	hero = team.get(i);
+        for(int i = 0; i< party.size(); i++) {
+        	hero = party.get(i);
         	name = hero.getName();
         	name = space(name,20);
         	mana = Integer.toString(hero.getMana());
@@ -108,8 +109,8 @@ public class Team {
 		System.out.print("\n");
 		System.out.println("Name"+ "                        	" + "Money"+"              	"+ "Level");
 		System.out.println("------------------------------------------------------------------------------------------");
-        for(int i = 0; i<team.size(); i++) {
-        	hero = team.get(i);
+        for(int i = 0; i< party.size(); i++) {
+        	hero = party.get(i);
         	name = hero.getName();
         	name = space(name,20);
         	money = Integer.toString(hero.getMoney());
@@ -122,8 +123,8 @@ public class Team {
 	}
 	
 	public void printStorage() {
-		for(int i = 0; i<team.size();i++) {
-			Hero h = team.get(i);
+		for(int i = 0; i< party.size(); i++) {
+			Hero h = party.get(i);
 			System.out.println(h.getName()+":");
 			h.printArmorStora();
 			h.printPotionStora();

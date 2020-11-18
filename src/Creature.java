@@ -4,13 +4,15 @@ public class Creature{
 
 	//the class represent all characters which is hero and monster
 	//the class was extended by class hero and monster
-	
+
 	 protected String name;
 	 protected int level;
 	 protected int hp;
 	 protected String cellName="";
 	 protected int row;
 	 protected int col;
+
+
 	 
 	 
 	 public Creature(String name, int level){
@@ -18,8 +20,8 @@ public class Creature{
 		 this.level = level;
 		 this.hp = 100*level;
 	}
-	 
-	 public void setCellName(String n) {
+
+	public void setCellName(String n) {
 		 cellName = n;
 	 }
 	 

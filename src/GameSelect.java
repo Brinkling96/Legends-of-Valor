@@ -8,14 +8,12 @@ public class GameSelect {
     public static void main(String[] args) {
         //Effect:Begins logic for starting game select
         //Something like selectGame().start()
-    	
-        //MonsterANDHeroes game = new MonsterANDHeroes();
-        //game.start();
-        selectGame();
+		MonsterGame game = selectGame();
+		game.start();
         
     }
 
-    public static void selectGame(){
+    public static MonsterGame selectGame(){
         //Effect: User Selects which game to play, MAH or LOV and starts Game
     	
     	System.out.println("We have two games: [1] Legends: Monsters and Heroes");
@@ -28,14 +26,17 @@ public class GameSelect {
     		gameNum = isInt();
     	}
     	System.out.println();
+    	MonsterGame game;
     	if(gameNum==1) {
-    		MonsterANDHeroes game = new MonsterANDHeroes();
-            game.start();
+    		MonsterANDHeroes.intro();
+    		game = new MonsterANDHeroes();
     	}else {
-    		LegendsOfValor game = new LegendsOfValor();
-    		game.start();
+    		LegendsOfValor.intro();
+    		game = new LegendsOfValor();
     	}
+    	return game;
     }
+
     
     
     private static int isInt() {

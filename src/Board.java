@@ -5,11 +5,11 @@ import java.util.Random;
 public class Board {
 
 	//The class represents the board of the game
-	
+
+
 	private Cell[][] board;
 	private int rowNum;
 	private int colNum;
-
 
 	public Board(Cell[][] board, int rowNum, int colNum) {
 		this.board = board;
