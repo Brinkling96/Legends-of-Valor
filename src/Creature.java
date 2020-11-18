@@ -1,6 +1,6 @@
 package src;
 
-public class Creature {
+public class Creature{
 
 	//the class represent all characters which is hero and monster
 	//the class was extended by class hero and monster
