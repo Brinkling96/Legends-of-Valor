@@ -1,23 +1,22 @@
 package src;
 
-public class LegendsOfValor extends Game{
+import java.util.ArrayList;
+import java.util.Vector;
+
+public class LegendsOfValor extends MonsterGame {
 
 
     //Characters
-    //private List<PlayerCharater> Heros
-    //private List<Monster> Villains
+    private ArrayList<Hero> Heros;
+    private ArrayList<Monster> Villains;
 
     //World
-    //private Board board
-    //private Market market
 
 
-
-
-
-
-    private void intro(){
-        //Effect:Basic intro to LOV in terminal
+    public LegendsOfValor(HeroFactory H_factory, ArrayList<Monster> monsterList, MonsterFactory allMonsters, BoardFactory B_Factory) {
+        super(H_factory, monsterList, allMonsters, B_Factory, 8, 8);
+        Heros = getHeros();
+        Villains = new ArrayList<Monster>();
     }
 
     private void gameBegin(){
@@ -52,6 +51,7 @@ public class LegendsOfValor extends Game{
 
     private boolean IsHeroWin(){
         //Effect: returns if true If Hero win
+        return false;
     }
 
 

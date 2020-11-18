@@ -2,26 +2,22 @@ package src;
 
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.Scanner;
 
-public class MonsterANDHeroes extends Game{
+public class MonsterANDHeroes extends MonsterGame {
 //the class represents the monster and heroes game
-	static Scanner in = new Scanner(System.in);
-	HeroFactory allHeroes = new HeroFactory();
+	MAHHeroFactory allHeroes = new MAHHeroFactory(in);
 	private ArrayList<Hero> deadHero = new ArrayList<Hero>();
 	private ArrayList<Monster> deadMonster = new ArrayList<Monster>();
-	private ArrayList<Monster> monsterList = new ArrayList<Monster>();
-	private MonsterFactory allMonsters = new MonsterFactory();
-	private int heroCount;
-	private Team team;
-	private Board board;
-	private Market market;
+	private MAHTeam MAHTeam;
 	private char lastCell = ' ';
 	
 	public MonsterANDHeroes() {
+		super(new MAHHeroFactory(in), new ArrayList<Monster>(), new MonsterFactory(),
+				new MonsterAndHerosBoardFactory(), 8, 8 );
+		MAHTeam = new MAHTeam(getHeros(),'X');
 	}
 
-	public void intro() {
+	public static void intro() {
 		System.out.println("					Legends: Monsters and Heroes");
 		Patterns.printIntHead();
 		System.out.println("	In the ancient times kingdom Java, after defeating the commander of the evil troops Python, ");
@@ -35,21 +31,18 @@ public class MonsterANDHeroes extends Game{
 			basicInfo();
 		}
 		Patterns.printGameBegin();
-		promptHeroCount();
-		promptHeroChoose();
-		team.printTeam();
 	}
 	public void GameBegin() {
-		board =  new MonsterAndHerosBoardFactory().createBoard(8,8);
-		team.setPosition(7,7);
-		board.setCell(7, 7, team.getTeamCell());
+		MAHTeam.printTeam();
+		MAHTeam.setPosition(7,7);
+		board.setCell(7, 7, MAHTeam.getTeamCell());
 		board.printBoard();
 		System.out.println("Time for our destination! ");
 		checkMove();
 
 	}
 	
-	public void basicInfo() {
+	public static void basicInfo() {
 		System.out.println("	Basic Information:");
 		System.out.println("	=====================\n");
 		System.out.println("	For movement:	W - move forward");
@@ -79,49 +72,7 @@ public class MonsterANDHeroes extends Game{
 		int n = in.nextInt();
 		return n;
 	}
-	private void promptHeroCount() {
-        System.out.print("Please enter the number of heroes (1-3): ");
-        in.nextLine();
-        heroCount = isInt();
-        while (heroCount < 1|| heroCount>3) {
-            System.out.println("Invalid input! Please enter a number of heroes (1-3): ");
-            in.nextLine();
-            heroCount = isInt();
-        }
-    }
-	
-	private void promptHeroChoose() {
-		//HeroFactory allHeroes = new HeroFactory();
-		allHeroes.printHeroes();
-		System.out.println();
-		Patterns.printHint();
-		team = new Team('X');
-		for(int i = 1; i<=heroCount; i++) {
-			System.out.print("Please enter a number to choose your hero No."+i+" (0 - "+ (allHeroes.getHeroFactory().size()-1) +"): ");
-			in.nextLine();
-			int c = isInt();
-			while(c<0||c>(allHeroes.getHeroFactory().size()-1)) {
-				System.out.println("Invalid number!");
-				System.out.print("Please enter a number to choose your hero No. "+i+" (0 - "+ (allHeroes.getHeroFactory().size()-1) +"): ");
-				in.nextLine();
-				c = isInt();
-			}
-			while(team.hasRepeatMem(allHeroes.getHeroFactory().get(c).getName())) {
-				System.out.print("Please enter a number to choose your hero No. "+i+" (0 - "+ (allHeroes.getHeroFactory().size()-1) +"): ");
-				in.nextLine();
-				c = isInt();
-				while(c<0||c>(allHeroes.getHeroFactory().size()-1)) {
-					System.out.println("Invalid number!");
-					System.out.print("Please enter a number to choose your hero No. "+i+" (0 - "+ (allHeroes.getHeroFactory().size()-1) +"): ");
-					in.nextLine();
-					c = isInt();
-				}
-			}
-			Hero h = allHeroes.getHeroFactory().get(c);
-			team.addTeamMemb(h);
-			System.out.println(h.getName()+" join the team!");
-		}
-	}
+
 	
 	public void checkMove() {
 		System.out.print("Enter your move: ");
@@ -136,10 +87,10 @@ public class MonsterANDHeroes extends Game{
 	}
 	
 	public void moveTeam(String move) {
-		int row = team.getRow();
-		int col = team.getCol();
+		int row = MAHTeam.getRow();
+		int col = MAHTeam.getCol();
 		int rowNext, colNext;
-		char teamCell = team.getTeamCell();
+		char teamCell = MAHTeam.getTeamCell();
 		
 		if(move.equals("w")) {
 			rowNext = row-1;
@@ -150,14 +101,14 @@ public class MonsterANDHeroes extends Game{
 				board.setCell(row, col, lastCell);
 				lastCell = 'M';
 				board.setCell(rowNext, colNext, teamCell);
-				team.setPosition(rowNext, colNext);
+				MAHTeam.setPosition(rowNext, colNext);
 				board.printBoard();
 				market();
 			}else if(board.checkCellAccess(rowNext,colNext,teamCell)== 0) {
 				board.setCell(row, col, lastCell);
 				lastCell = ' ';
 				board.setCell(rowNext, colNext, teamCell);
-				team.setPosition(rowNext, colNext);
+				MAHTeam.setPosition(rowNext, colNext);
 				board.printBoard();
 				emptyCell();
 			}
@@ -172,14 +123,14 @@ public class MonsterANDHeroes extends Game{
 				board.setCell(row, col, lastCell);
 				lastCell = 'M';
 				board.setCell(rowNext, colNext, teamCell);
-				team.setPosition(rowNext, colNext);
+				MAHTeam.setPosition(rowNext, colNext);
 				board.printBoard();
 				market();
 			}else if(board.checkCellAccess(rowNext,colNext,teamCell)== 0) {
 				board.setCell(row, col, lastCell);
 				lastCell = ' ';
 				board.setCell(rowNext, colNext, teamCell);
-				team.setPosition(rowNext, colNext);
+				MAHTeam.setPosition(rowNext, colNext);
 				board.printBoard();
 				emptyCell();
 			}
@@ -194,14 +145,14 @@ public class MonsterANDHeroes extends Game{
 				board.setCell(row, col, lastCell);
 				lastCell = 'M';
 				board.setCell(rowNext, colNext, teamCell);
-				team.setPosition(rowNext, colNext);
+				MAHTeam.setPosition(rowNext, colNext);
 				board.printBoard();
 				market();
 			}else if(board.checkCellAccess(rowNext,colNext,teamCell)== 0) {
 				board.setCell(row, col, lastCell);
 				lastCell = ' ';
 				board.setCell(rowNext, colNext, teamCell);
-				team.setPosition(rowNext, colNext);
+				MAHTeam.setPosition(rowNext, colNext);
 				board.printBoard();
 				emptyCell();
 			}
@@ -216,26 +167,26 @@ public class MonsterANDHeroes extends Game{
 				board.setCell(row, col, lastCell);
 				lastCell = 'M';
 				board.setCell(rowNext, colNext, teamCell);
-				team.setPosition(rowNext, colNext);
+				MAHTeam.setPosition(rowNext, colNext);
 				board.printBoard();
 				market();
 			}else if(board.checkCellAccess(rowNext,colNext,teamCell)== 0) {
 				board.setCell(row, col, lastCell);
 				lastCell = ' ';
 				board.setCell(rowNext, colNext, teamCell);
-				team.setPosition(rowNext, colNext);
+				MAHTeam.setPosition(rowNext, colNext);
 				board.printBoard();
 				emptyCell();
 			}
 		}
 		if(move.equals("i")) {
-			team.printTeam();
+			MAHTeam.printTeam();
 		}
 		if(move.equals("q")) {
 			Patterns.printBye();
 			System.exit(0);
 		}
-		allHeroes.LEVELUP(team.getTeam());
+		allHeroes.LEVELUP(MAHTeam.getParty());
 		System.out.print("Enter B/b to show board, q/Q to quit game, anything else to continue move: ");
 		String ans = in.next();
 		if(ans.charAt(0)=='B' ||ans.charAt(0)=='b') {
@@ -252,18 +203,18 @@ public class MonsterANDHeroes extends Game{
 		System.out.print("Enter I/i to show inventory, else to directly visit market: ");
 		String inv = in.next();
 		if(inv.charAt(0)=='I' ||inv.charAt(0)=='i') {
-			team.printStorage();
+			MAHTeam.printStorage();
 		}
-		team.printMoney();
-		System.out.print("Please enter a number to choose a hero to visit the Market(0 - "+(team.getTeam().size()-1)+"): ");
+		MAHTeam.printMoney();
+		System.out.print("Please enter a number to choose a hero to visit the Market(0 - "+(MAHTeam.getParty().size()-1)+"): ");
 		in.nextLine();
         int num = isInt();
-        while (num < 0|| num>team.getTeam().size()-1) {
-    		System.out.print("Invalid number! Please enter a number to choose a hero(0 - "+(team.getTeam().size()-1)+"): ");
+        while (num < 0|| num> MAHTeam.getParty().size()-1) {
+    		System.out.print("Invalid number! Please enter a number to choose a hero(0 - "+(MAHTeam.getParty().size()-1)+"): ");
             in.nextLine();
             num = isInt();
         }
-        Hero h = team.getTeamMemb(num);
+        Hero h = MAHTeam.getTeamMemb(num);
         market = Market.getInstance();
         market.visitMarket(h);
         System.out.print("Enter m/M to display map, or anything else to continue moving: ");
@@ -278,13 +229,13 @@ public class MonsterANDHeroes extends Game{
         int n = new Random().nextInt(100);
         if(n >= 25){
         	Patterns.printAttacked();
-        	monsterList = allMonsters.generateMonster(heroCount, team.getMaxLv());
+        	monsterList = allMonsters.generateMonster(MAHTeam.getParty().size(), MAHTeam.getMaxLv());
         	allMonsters.printMonster(monsterList);
         	Patterns.printTeamSt();
-        	team.printTeam();
-        	fight(1, team, monsterList);
+        	MAHTeam.printTeam();
+        	fight(1, MAHTeam, monsterList);
         	allHeroes.Revive(deadHero);
-        	team.getTeam().addAll(deadHero);
+        	MAHTeam.getParty().addAll(deadHero);
         	deadHero.removeAll(deadHero);
         	allMonsters.reset(deadMonster);
         }
@@ -319,13 +270,13 @@ public class MonsterANDHeroes extends Game{
 				str = str.toLowerCase();
 			}
 			if (str.charAt(0) == 't'){
-				team.printTeam();
+				MAHTeam.printTeam();
 			}else if(str.charAt(0) == 'e') {
-				equipItem(team);
+				equipItem(MAHTeam);
 			}else if(str.charAt(0) == 'i') {
-				team.printStorage();
+				MAHTeam.printStorage();
 			}else if(str.charAt(0) == 'p') {
-				usePotion(team);
+				usePotion(MAHTeam);
 			}else {
 				Patterns.printBye();
 				System.exit(0);
@@ -335,15 +286,15 @@ public class MonsterANDHeroes extends Game{
 		}
 	}
 	
-	private Hero chooseFromTeam(Team team, String str) {
+	private Hero chooseFromTeam(MAHTeam team, String str) {
 		System.out.print("Choose a hero to "+str+": ");
 		team.printTeam();
-		System.out.print("Please enter a number to choose a hero to "+str+" (0 - "+(team.getTeam().size()-1)+"): ");
+		System.out.print("Please enter a number to choose a hero to "+str+" (0 - "+(team.getParty().size()-1)+"): ");
 		in.nextLine();
 		int num = isInt();
-		while(num<0||num>(team.getTeam().size()-1)) {
+		while(num<0||num>(team.getParty().size()-1)) {
 			System.out.println("Invalid number!");
-			System.out.print("Please enter a number to choose a hero to "+str+" (0 - "+(team.getTeam().size()-1)+"): ");
+			System.out.print("Please enter a number to choose a hero to "+str+" (0 - "+(team.getParty().size()-1)+"): ");
 			in.nextLine();
 			num = isInt();
 		}
@@ -352,23 +303,23 @@ public class MonsterANDHeroes extends Game{
 	}
 	
 	
-	private void fight(int round, Team team, ArrayList<Monster> monster) {
-		if(team.getTeam().size()>0 && monster.size() ==0) {
+	private void fight(int round, MAHTeam team, ArrayList<Monster> monster) {
+		if(team.getParty().size()>0 && monster.size() ==0) {
 			Patterns.printVictory();
-			for(int i = 0; i < team.getTeam().size(); i++){
+			for(int i = 0; i < team.getParty().size(); i++){
 				team.getTeamMemb(i).addMoney(150);
 				team.getTeamMemb(i).addExp(2);
 			}
 			return;
-		}else if(team.getTeam().size()==0) {
+		}else if(team.getParty().size()==0) {
 			Patterns.printDefeat();
 			return;
 		}
-		while(team.getTeam().size()>0 && monster.size()>0) {
+		while(team.getParty().size()>0 && monster.size()>0) {
 			System.out.println();
 			System.out.println("				--------- R O U N D   "+round+" ---------");
 			System.out.println();
-			for(int i = 0; i< team.getTeam().size();i++) {
+			for(int i = 0; i< team.getParty().size(); i++) {
 				int j = 0;
 				while(j<monster.size()) {
 					Monster m = monster.get(j);
@@ -386,18 +337,18 @@ public class MonsterANDHeroes extends Game{
 				m.attack(h);
 			}
 			int k = 0;
-			while(k<team.getTeam().size()) {
+			while(k<team.getParty().size()) {
 				Hero h = team.getTeamMemb(k);
 				if(h.getHp() == 0) {
 					deadHero.add(h);
-					team.getTeam().remove(k);
+					team.getParty().remove(k);
 				}else {
 					k++;
 				}
 			}
 			
-			allHeroes.recoverRound(team.getTeam());
-			allHeroes.bonusCoin(team.getTeam());
+			allHeroes.recoverRound(team.getParty());
+			allHeroes.bonusCoin(team.getParty());
 			round++;
 			fight(round, team, monster);
 		}
@@ -477,7 +428,7 @@ public class MonsterANDHeroes extends Game{
 	
 	
 	
-	private void usePotion(Team team) {
+	private void usePotion(MAHTeam team) {
 		Hero h = chooseFromTeam(team, "use potion");
 		if(h.getPotionStore().size()==0) {
 			System.out.print("Sorry! "+h.getName()+" does not have enough potion! Cannot use!");
@@ -552,7 +503,7 @@ public class MonsterANDHeroes extends Game{
 	
 	
 	
-	private void equipItem(Team team) {
+	private void equipItem(MAHTeam team) {
 		Hero h = chooseFromTeam(team, "equip item");
 		System.out.println("Choose one for "+h.getName()+": ");
 		System.out.println("	[A]Equip Armor		[B]Unequip Armor");
@@ -598,8 +549,7 @@ public class MonsterANDHeroes extends Game{
 		}
 	}
 
-	public void start() {
-		intro();
+	public  void start() {
 		GameBegin();
 	}
 
