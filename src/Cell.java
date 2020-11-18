@@ -28,6 +28,7 @@ public class Cell {
     public char getCellType(){
         return this.cellType;
     }
+
 	
 	
 }

@@ -39,6 +39,6 @@ public class LOVBoardFactory implements BoardFactory {
                 }
             }
         }
-        return new Board(board,rowNum,colNum);
+        return new LOVBoard(board,rowNum,colNum);
     }
 }

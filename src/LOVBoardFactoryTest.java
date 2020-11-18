@@ -8,7 +8,7 @@ class LOVBoardFactoryTest {
 
     @Test
     public void createBoard() {
-        Board board = new LOVBoardFactory().createBoard(8,8);
-        board.printBoard();
+        LOVBoard board = (LOVBoard) new LOVBoardFactory().createBoard(8,8);
+        System.out.println(board.toString());
     }
 }

@@ -7,7 +7,7 @@ public class Board {
 	//The class represents the board of the game
 
 
-	private Cell[][] board;
+	protected Cell[][] board;
 	private int rowNum;
 	private int colNum;
 
