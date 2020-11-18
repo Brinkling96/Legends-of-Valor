@@ -20,6 +20,10 @@ public abstract class LOVCell extends Cell{
         display.set(1,("| "+ this.positions[0] +"  "+ this.positions[1] + " |") );
     }
 
+    public char[] getPositions(){
+        return positions;
+    }
+
     public ArrayList<String> display() {
         return display;
     }
