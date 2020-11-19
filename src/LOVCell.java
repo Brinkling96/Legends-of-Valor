@@ -24,6 +24,15 @@ public abstract class LOVCell extends Cell{
         return positions;
     }
 
+    public int getPositionsOpen() {
+        for (int i = 0; i < positions.length; i++) {
+            if (positions[i] == ' ') {
+                return i;
+            }
+        }
+        return -1;
+    }
+
     public ArrayList<String> display() {
         return display;
     }

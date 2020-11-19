@@ -7,11 +7,8 @@ public class LOVHeroNexus extends LOVCell implements LOVBoostStrategy{
     }
 
     @Override
-    public void doBoostBehavior(Hero hero) {
+    public void doBoostBehavior(LOVHero hero) {
         resetBoost(hero);
-        System.out.println("Visit Market");
-        //if yes
-        Market.getInstance().visitMarket(hero);
     }
 
 }

@@ -1,7 +1,6 @@
 package src;
 
 import java.util.ArrayList;
-import java.util.Vector;
 
 public class LegendsOfValor extends MonsterGame {
 
@@ -59,7 +58,7 @@ public class LegendsOfValor extends MonsterGame {
         return false;
     }
 
-    private boolean HeroAction(Hero hero){
+    private boolean HeroAction(LOVHero hero){
         System.out.println("-------------------------------------------------------");
         System.out.println("Enter your action for hero "+hero.getName()+": ");
         System.out.println("[W]Move Up     [A]Move left     [S]Move Down        [D]Move right");
@@ -72,7 +71,7 @@ public class LegendsOfValor extends MonsterGame {
     }
 
 
-    private boolean CheckInput(Hero hero){
+    private boolean CheckInput(LOVHero hero){
         String str = in.next();
         str = str.toLowerCase();
         while(true){
@@ -94,8 +93,9 @@ public class LegendsOfValor extends MonsterGame {
             }else if(str.charAt(0)== 'z'){
 
             }else if(str.charAt(0)== 'b'){
-
+                return attemptBack(hero);
             }else if(str.charAt(0)== 'm'){
+                return attemptMarketVisit(hero);
 
             }else if(str.charAt(0)== 'q'){
                 Patterns.printBye();
@@ -104,6 +104,22 @@ public class LegendsOfValor extends MonsterGame {
 
         }
 
+    }
+
+    private boolean attemptMarketVisit(LOVHero hero){
+        if(board.getCell(hero.row, hero.col) instanceof LOVHeroNexus){
+            Market.getInstance().visitMarket(hero);
+            return true;
+        }
+        else{
+            System.out.println("Hero must be at a Hero nexus to purchase items!");
+            return false;
+        }
+    }
+
+    private boolean attemptBack(LOVHero hero){
+        hero.setHeroPosition(board, board.board.length -1, hero.col);
+        return true;
     }
 
 
@@ -116,7 +132,7 @@ public class LegendsOfValor extends MonsterGame {
 		return n;
 	}
 
-    private boolean Teleport(Hero hero){
+    private boolean Teleport(LOVHero hero){
         System.out.println("Which lane you want teleport to?");
         System.out.print("[1]Top lane   [2]Mid lane     [3]Bottom lane : ");
         int lane = isInt();

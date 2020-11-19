@@ -3,12 +3,12 @@ package src;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public final class MAHHeroFactory implements HeroFactory{
+public class MAHHeroFactory implements HeroFactory{
 
-	//the class initializes all heroes 
+	//the class initializes all heroes
 	private ArrayList<Hero> allHeroes;
 	private Scanner in;
-	
+
 	public MAHHeroFactory(Scanner in) {
 		allHeroes = new ArrayList<Hero>();
 		this.in = in;
@@ -33,7 +33,7 @@ public final class MAHHeroFactory implements HeroFactory{
 		return n;
 	}
 
-	private int promptHeroCount() {
+	protected int promptHeroCount() {
 		System.out.print("Please enter the number of heroes (1-3): ");
 		in.nextLine();
 		int heroCount = isInt();
@@ -74,7 +74,7 @@ public final class MAHHeroFactory implements HeroFactory{
 			}
 		}
 	}
-	
+
 	public void iniWarrior() {
 		Hero_Warriors Gaerdal_Ironhand = new Hero_Warriors("Gaerdal_Ironhand", 100, 700, 500, 600, 1354, 7);
 		Hero_Warriors Sehanine_Monnbow = new Hero_Warriors("Sehanine_Monnbow", 600, 700, 800, 500, 2500, 8);
@@ -90,7 +90,7 @@ public final class MAHHeroFactory implements HeroFactory{
 		allHeroes.add(Eunoia_Cyn);
 
 	}
-	
+
 	public void iniSorcrer() {
 		Hero_Sorcerers Rillifane_Rallathil = new Hero_Sorcerers("Rillifane_Rallathil", 1300, 750, 450, 500, 2500, 9);
 		Hero_Sorcerers Segojan_Earthcaller = new Hero_Sorcerers("Segojan_Earthcaller", 900, 800, 500, 650, 2500, 5);
@@ -106,7 +106,7 @@ public final class MAHHeroFactory implements HeroFactory{
 		allHeroes.add(Skye_Soar);
 
 	}
-	
+
 	public void iniPaladin() {
 		Hero_Paladins Solonor_Thelandira = new Hero_Paladins("Solonor_Thelandira", 300, 750, 650, 700, 2500, 7);
 		Hero_Paladins Sehanine_Moonbow = new Hero_Paladins("Sehanine_Moonbow", 300, 750, 700, 700, 2500, 7);
@@ -121,15 +121,15 @@ public final class MAHHeroFactory implements HeroFactory{
 		allHeroes.add(Amaryllis_Astra);
 		allHeroes.add(Caliber_Heist);
 	}
-	
+
 	public String space(String str, int num) {
 		while(str.length() < num) {
 			str += " ";
 		}
 		return str;
 	}
-	
-	
+
+
 	public void printHeroes() {
 		Hero hero;
 		String name, mana, hp, stre, agi, dex, exp;
@@ -137,25 +137,25 @@ public final class MAHHeroFactory implements HeroFactory{
         	hero = allHeroes.get(i);
         	name = hero.getName();
         	name = space(name,20);
-        	
+
         	mana = Integer.toString(hero.getMana());
         	mana = space(mana,16);
-        	
+
         	hp = Integer.toString(hero.getHp());
         	hp = space(hp,10);
-        	
+
         	stre = Integer.toString(hero.getStre());
         	stre = space(stre,10);
-        	
+
         	agi = Integer.toString(hero.getAgi());
         	agi = space(agi,10);
-        	
+
         	dex = Integer.toString(hero.getDex());
         	dex = space(dex,10);
-        	
+
         	exp = Integer.toString(hero.getExp());
         	exp = space(exp,10);
-        	
+
         	if(i == 0 || i == 6 || i == 12) {
                 System.out.println("-------------------------------------------------------------------------------------------------------------------------------------------------------------------");
         		System.out.print("\n");
@@ -168,9 +168,9 @@ public final class MAHHeroFactory implements HeroFactory{
 
         	System.out.println(i+")"+name + "		"+mana+"	"+hp+"		"+stre+"		"+agi+"		"+dex+"		"+exp);
         }
-		
+
 	}
-	
+
 	public void recoverRound(ArrayList<Hero> hero) {
 		for(int i = 0; i<hero.size(); i++) {
 			Hero h = hero.get(i);
@@ -192,7 +192,7 @@ public final class MAHHeroFactory implements HeroFactory{
 			h.addHp((h.getLv()*100)/2);
 		}
 	}
-	
+
 	public void LEVELUP(ArrayList<Hero> heroes) {
 		for(int i = 0; i < heroes.size(); i++){
 			Hero h = heroes.get(i);
@@ -213,5 +213,5 @@ public final class MAHHeroFactory implements HeroFactory{
         }
 	}
 
-	
+
 }

@@ -5,14 +5,15 @@ import java.util.Random;
 
 public class MonsterANDHeroes extends MonsterGame {
 //the class represents the monster and heroes game
-	MAHHeroFactory allHeroes = new MAHHeroFactory(in);
+
+	MAHHeroFactory allHeroes = new MAHHeroFactory(MonsterGame.in);
 	private ArrayList<Hero> deadHero = new ArrayList<Hero>();
 	private ArrayList<Monster> deadMonster = new ArrayList<Monster>();
 	private MAHTeam MAHTeam;
 	private char lastCell = ' ';
 	
 	public MonsterANDHeroes() {
-		super(new MAHHeroFactory(in), new ArrayList<Monster>(), new MonsterFactory(),
+		super(new MAHHeroFactory(MonsterGame.in), new ArrayList<Monster>(), new MonsterFactory(),
 				new MonsterAndHerosBoardFactory(), 8, 8 );
 		MAHTeam = new MAHTeam(getHeros(),'X');
 	}

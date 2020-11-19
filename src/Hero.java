@@ -11,15 +11,12 @@ public class Hero extends Creature implements HeroAttack{
     protected int strength;
     protected int agility;
     protected int dexterity;
-    
-    protected int cellStre;
-    protected int cellAgi;
-    protected int cellDex;
+
 
     private int money;
     private int exp;
     private String heroType;
-    private int heroNum;
+
 	
     private Item_Weapon curWeapon = null;
     private Item_Armor curArmor = null;
@@ -43,20 +40,7 @@ public class Hero extends Creature implements HeroAttack{
         this.spell_storage=new ArrayList<Item_Spell>();
 	}
 	
-	public void setHeroPosition(LOVBoard board, int row, int col){
-		//leaveHeroPosition(board);
-		board.setCellIsHero(heroNum, row, col);
-		this.row = row;
-		this.col = col;
-		char celltype = board.getCelltype(row, col);
-		if(celltype=='B'){
-			this.dexterity += this.dexterity*0.1;
-		}else if(celltype == 'C'){
-			this.agility += this.agility*0.1;
-		}else if(celltype=='K'){
-			this.strength += this.strength*0.1;
-		}
-	}
+
 	
 	public void setHeroType(String str) {
 		this.heroType = str;
@@ -91,39 +75,7 @@ public class Hero extends Creature implements HeroAttack{
 		return this.money;
 	}
 
-	public int getCellStre() {
-		return cellStre;
-	}
 
-	public int getCellAgi() {
-		return cellAgi;
-	}
-
-	public int getCellDex() {
-		return cellDex;
-	}
-
-	public void setCellStre(int cellStre) {
-		this.cellStre = cellStre;
-	}
-
-	public void setCellAgi(int cellAgi) {
-		this.cellAgi = cellAgi;
-	}
-
-	public void setCellDex(int cellDex) {
-		this.cellDex = cellDex;
-	}
-
-	public int getStreWithBoost() {
-		return this.strength+ this.cellStre;
-	}
-	public int getAgilWithBoost() {
-		return this.agility+ this.cellAgi;
-	}
-	public int getDexWithBoost() {
-		return this.dexterity+ this.cellDex;
-	}
 
 	public void addMana(int x) {
 		mana += x;

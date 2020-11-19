@@ -6,7 +6,7 @@ public class LOVBushCell extends LOVCell implements LOVBoostStrategy{
     }
 
     @Override
-    public void doBoostBehavior(Hero hero) {
+    public void doBoostBehavior(LOVHero hero) {
         resetBoost(hero);
         hero.setCellDex((int) (hero.getDex()*0.1));
     }

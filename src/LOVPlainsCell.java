@@ -7,7 +7,7 @@ public class LOVPlainsCell extends LOVCell implements LOVBoostStrategy{
     }
 
     @Override
-    public void doBoostBehavior(Hero hero) {
+    public void doBoostBehavior(LOVHero hero) {
         resetBoost(hero);
     }
 }

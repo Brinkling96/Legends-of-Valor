@@ -33,8 +33,9 @@ public class GameSelect {
     	}else {
     		LegendsOfValor.intro();
     		//game = new LegendsOfValor();
+			game = null;
     	}
-    	return null;
+    	return game;
     }
 
     
