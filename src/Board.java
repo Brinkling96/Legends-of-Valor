@@ -37,8 +37,6 @@ public class Board {
 		return this.colNum;
 	}
 	
-
-	
 	public void setCell(int row, int col, char cell) {
 		Cell temp = board[row][col];
 		temp.setCellType(cell);
@@ -47,6 +45,14 @@ public class Board {
 	public char getCell(int row, int col) {
 		Cell temp = board[row][col];
 		return temp.getCellType();
+	}
+	
+	public void setCellIsHero(int num, int row, int col){
+		board[row][col].setIsHero(num);
+	}
+
+	public void setCellIsMonster(int num, int row, int col){
+		board[row][col].setIsMonster(num);
 	}
 	
 	public void printBoard() {
@@ -86,5 +92,16 @@ public class Board {
 		return 0;
 	}
 	
+	public boolean checkCellAccess(int row, int col){
+		if(board[row][col].getCellType()=='&'){
+			return true;
+		}else if(board[row][col].getIsHero()>0) {
+			return true;
+		}else if(board[row][col].getIsMonster()>0) {
+			return true;
+		}else {
+			return false;
+		}
+	}
 
 }

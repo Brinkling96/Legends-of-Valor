@@ -19,6 +19,7 @@ public class Hero extends Creature implements HeroAttack{
     private int money;
     private int exp;
     private String heroType;
+    private int heroNum;
 	
     private Item_Weapon curWeapon = null;
     private Item_Armor curArmor = null;
@@ -42,16 +43,32 @@ public class Hero extends Creature implements HeroAttack{
         this.spell_storage=new ArrayList<Item_Spell>();
 	}
 	
+	public void setHeroPosition(LOVBoard board, int row, int col){
+		//leaveHeroPosition(board);
+		board.setCellIsHero(heroNum, row, col);
+		this.row = row;
+		this.col = col;
+		char celltype = board.getCell(row, col);
+		if(celltype=='B'){
+			this.dexterity += this.dexterity*0.1;
+		}else if(celltype == 'C'){
+			this.agility += this.agility*0.1;
+		}else if(celltype=='K'){
+			this.strength += this.strength*0.1;
+		}
+	}
+	
 	public void setHeroType(String str) {
 		this.heroType = str;
 	}
+
+	//getters of hero
 	public String getHeroType() {
 		return this.heroType;
 	}
 	public String getName() {
 		return name;
 	}
-	//getters of hero
 	public int getMana() {
 		return this.mana;
 	}
