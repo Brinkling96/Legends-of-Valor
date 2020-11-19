@@ -11,17 +11,21 @@ public class LOVBoard extends Board{
         super(board, rowNum, colNum);
     }
 
-    //@Override
-    public String toString(ArrayList<Hero> hero, ArrayList<Monster> monster) {
+    public LOVCell getCell(int row, int col) {
+        return (LOVCell) board[row][col];
+    }
+
+    @Override
+    public String toString() {
         String gameBoard = "";
         for(int i = 0; i< board.length; i++) {
             for (int k = 0; k < 3; k++) {
                 for (int j = 0; j < board[i].length; j++) {
                     LOVCell lovcell = (LOVCell) board[i][j];
                     gameBoard += lovcell.display().get(k) + " ";
-                    
-                    for(int h = 1;h<4;h++){
-    					if(hero.get(i).getRow()==i && hero.get(i).getCol()==j){
+                    /*
+                    for(int h = 0;h<3;h++){
+    					if(hero.get(h).getRow()==i && hero.get(h).getCol()==j){
     						board[i][j].setIsHero(h);
     					}
     				}
@@ -31,6 +35,8 @@ public class LOVBoard extends Board{
     						board[i][j].setIsMonster(m);
     					}
     				}
+
+                     */
                 }
 
                 gameBoard += '\n';

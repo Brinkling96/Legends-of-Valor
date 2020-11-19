@@ -35,7 +35,7 @@ public class MonsterANDHeroes extends MonsterGame {
 	public void GameBegin() {
 		MAHTeam.printTeam();
 		MAHTeam.setPosition(7,7);
-		board.setCell(7, 7, MAHTeam.getTeamCell());
+		board.setCelltype(7, 7, MAHTeam.getTeamCell());
 		board.printBoard();
 		System.out.println("Time for our destination! ");
 		checkMove();
@@ -98,16 +98,16 @@ public class MonsterANDHeroes extends MonsterGame {
 			if(board.checkCellAccess(rowNext,colNext,teamCell)== 1 ||board.checkCellAccess(rowNext,colNext,teamCell)== 2) {
 				checkMove();
 			}else if(board.checkCellAccess(rowNext,colNext,teamCell)== 3) {
-				board.setCell(row, col, lastCell);
+				board.setCelltype(row, col, lastCell);
 				lastCell = 'M';
-				board.setCell(rowNext, colNext, teamCell);
+				board.setCelltype(rowNext, colNext, teamCell);
 				MAHTeam.setPosition(rowNext, colNext);
 				board.printBoard();
 				market();
 			}else if(board.checkCellAccess(rowNext,colNext,teamCell)== 0) {
-				board.setCell(row, col, lastCell);
+				board.setCelltype(row, col, lastCell);
 				lastCell = ' ';
-				board.setCell(rowNext, colNext, teamCell);
+				board.setCelltype(rowNext, colNext, teamCell);
 				MAHTeam.setPosition(rowNext, colNext);
 				board.printBoard();
 				emptyCell();
@@ -120,16 +120,16 @@ public class MonsterANDHeroes extends MonsterGame {
 			if(board.checkCellAccess(rowNext,colNext,teamCell)== 1 ||board.checkCellAccess(rowNext,colNext,teamCell)== 2) {
 				checkMove();
 			}else if(board.checkCellAccess(rowNext,colNext,teamCell)== 3) {
-				board.setCell(row, col, lastCell);
+				board.setCelltype(row, col, lastCell);
 				lastCell = 'M';
-				board.setCell(rowNext, colNext, teamCell);
+				board.setCelltype(rowNext, colNext, teamCell);
 				MAHTeam.setPosition(rowNext, colNext);
 				board.printBoard();
 				market();
 			}else if(board.checkCellAccess(rowNext,colNext,teamCell)== 0) {
-				board.setCell(row, col, lastCell);
+				board.setCelltype(row, col, lastCell);
 				lastCell = ' ';
-				board.setCell(rowNext, colNext, teamCell);
+				board.setCelltype(rowNext, colNext, teamCell);
 				MAHTeam.setPosition(rowNext, colNext);
 				board.printBoard();
 				emptyCell();
@@ -142,16 +142,16 @@ public class MonsterANDHeroes extends MonsterGame {
 			if(board.checkCellAccess(rowNext,colNext,teamCell)== 1 ||board.checkCellAccess(rowNext,colNext,teamCell)== 2) {
 				checkMove();
 			}else if(board.checkCellAccess(rowNext,colNext,teamCell)== 3) {
-				board.setCell(row, col, lastCell);
+				board.setCelltype(row, col, lastCell);
 				lastCell = 'M';
-				board.setCell(rowNext, colNext, teamCell);
+				board.setCelltype(rowNext, colNext, teamCell);
 				MAHTeam.setPosition(rowNext, colNext);
 				board.printBoard();
 				market();
 			}else if(board.checkCellAccess(rowNext,colNext,teamCell)== 0) {
-				board.setCell(row, col, lastCell);
+				board.setCelltype(row, col, lastCell);
 				lastCell = ' ';
-				board.setCell(rowNext, colNext, teamCell);
+				board.setCelltype(rowNext, colNext, teamCell);
 				MAHTeam.setPosition(rowNext, colNext);
 				board.printBoard();
 				emptyCell();
@@ -164,16 +164,16 @@ public class MonsterANDHeroes extends MonsterGame {
 			if(board.checkCellAccess(rowNext,colNext,teamCell)== 1 ||board.checkCellAccess(rowNext,colNext,teamCell)== 2) {
 				checkMove();
 			}else if(board.checkCellAccess(rowNext,colNext,teamCell)== 3) {
-				board.setCell(row, col, lastCell);
+				board.setCelltype(row, col, lastCell);
 				lastCell = 'M';
-				board.setCell(rowNext, colNext, teamCell);
+				board.setCelltype(rowNext, colNext, teamCell);
 				MAHTeam.setPosition(rowNext, colNext);
 				board.printBoard();
 				market();
 			}else if(board.checkCellAccess(rowNext,colNext,teamCell)== 0) {
-				board.setCell(row, col, lastCell);
+				board.setCelltype(row, col, lastCell);
 				lastCell = ' ';
-				board.setCell(rowNext, colNext, teamCell);
+				board.setCelltype(rowNext, colNext, teamCell);
 				MAHTeam.setPosition(rowNext, colNext);
 				board.printBoard();
 				emptyCell();

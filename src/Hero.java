@@ -48,7 +48,7 @@ public class Hero extends Creature implements HeroAttack{
 		board.setCellIsHero(heroNum, row, col);
 		this.row = row;
 		this.col = col;
-		char celltype = board.getCell(row, col);
+		char celltype = board.getCelltype(row, col);
 		if(celltype=='B'){
 			this.dexterity += this.dexterity*0.1;
 		}else if(celltype == 'C'){

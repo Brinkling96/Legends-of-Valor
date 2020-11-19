@@ -1,7 +1,5 @@
 package src;
 
-import java.util.Random;
-
 public class Board {
 
 	//The class represents the board of the game
@@ -37,12 +35,12 @@ public class Board {
 		return this.colNum;
 	}
 	
-	public void setCell(int row, int col, char cell) {
+	public void setCelltype(int row, int col, char cell) {
 		Cell temp = board[row][col];
 		temp.setCellType(cell);
 	}
 	
-	public char getCell(int row, int col) {
+	public char getCelltype(int row, int col) {
 		Cell temp = board[row][col];
 		return temp.getCellType();
 	}
@@ -88,7 +86,7 @@ public class Board {
 		if(board[row][col].getCellType() == 'M') {
 			return 3;
 		}
-		setCell(row, col, cell);
+		setCelltype(row, col, cell);
 		return 0;
 	}
 	
