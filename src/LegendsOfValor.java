@@ -197,6 +197,10 @@ public class LegendsOfValor extends MonsterGame {
         return returnlist;
     }
 
+    public void displayTargets(ArrayList<Monster> tgts, MonsterFactory fc){
+        fc.printMonster(tgts);
+    }
+
 
 
 
