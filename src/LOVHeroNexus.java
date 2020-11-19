@@ -1,6 +1,6 @@
 package src;
 
-public class LOVHeroNexus extends LOVCell implements LOVBoostStrategy{
+public class LOVHeroNexus extends LOVCell{
 
     public LOVHeroNexus(int row, int col) {
         super(row, col, 'H');
@@ -8,7 +8,7 @@ public class LOVHeroNexus extends LOVCell implements LOVBoostStrategy{
 
     @Override
     public void doBoostBehavior(Hero hero) {
-        resetBoost(hero);
+        super.doBoostBehavior(hero);
         System.out.println("Visit Market");
         //if yes
         Market.getInstance().visitMarket(hero);

@@ -1,6 +1,6 @@
 package src;
 
-public class LOVPlainsCell extends LOVCell implements LOVBoostStrategy{
+public class LOVPlainsCell extends LOVCell {
 
     public LOVPlainsCell(int row, int col) {
         super(row, col, 'P');
@@ -8,6 +8,6 @@ public class LOVPlainsCell extends LOVCell implements LOVBoostStrategy{
 
     @Override
     public void doBoostBehavior(Hero hero) {
-        resetBoost(hero);
+        super.doBoostBehavior(hero);
     }
 }

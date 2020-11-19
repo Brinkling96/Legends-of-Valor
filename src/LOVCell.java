@@ -2,7 +2,7 @@ package src;
 
 import java.util.ArrayList;
 
-public abstract class LOVCell extends Cell{
+public abstract class LOVCell extends Cell implements LOVBoostStrategy{
     private char[] positions;
     private ArrayList<String> display;
 
@@ -13,6 +13,11 @@ public abstract class LOVCell extends Cell{
         display.add(cellType + "------"+ cellType);
         display.add("| "+ ' ' + "  " + ' ' + " |");
         display.add(cellType + "------"+ cellType);
+    }
+
+    @Override
+    public void doBoostBehavior(Hero hero) {
+        resetBoost(hero);
     }
 
     public void setPositions(char[] positions) {

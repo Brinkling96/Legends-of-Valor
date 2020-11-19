@@ -6,4 +6,8 @@ public class LOVInaccesibleCell extends LOVCell{
         setPositions(new char[]{'X','X'});
     }
 
+    @Override
+    public void doBoostBehavior(Hero hero) {
+        //DO nothing for now...
+    }
 }
