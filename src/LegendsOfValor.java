@@ -180,19 +180,20 @@ public class LegendsOfValor extends MonsterGame {
     }
 
 
-    public ArrayList<Monster> checkTargets(Hero actor){
+    public ArrayList<Monster> checkTargets(Hero actor) {
         int row = actor.getRow();
         int col = actor.getCol();
         ArrayList<Monster> returnlist = new ArrayList<Monster>();
         //Creature
-        for(int i  = row-1; i< row+1; i++){
-            for(int j = col-1; j < col+1; j++) {
+        for (int i = row - 1; i < row + 1; i++) {
+            for (int j = col - 1; j < col + 1; j++) {
                 for (Monster mon : Villains) {
                     if (mon.getRow() == i && mon.getCol() == j) {
                         returnlist.add(mon);
                     }
                 }
             }
+        }
         return returnlist;
     }
 
