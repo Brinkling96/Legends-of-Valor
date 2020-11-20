@@ -44,6 +44,17 @@ public class LOVBoard extends Board{
         }
         return gameBoard;
     }
+    
+    
+    public boolean checkCellAccess(int row, int col){
+		LOVCell temp = getCell(row, col);
+        char[] pos = temp.getPositions();
+        if(!Character.toString(pos[0]).equals(Character.toString(' ')) && !Character.toString(pos[1]).equals(Character.toString(' '))) {
+			return true;
+		}else {
+			return false;
+		}
+	}
 }
 
 

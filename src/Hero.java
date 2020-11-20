@@ -43,20 +43,21 @@ public class Hero extends Creature implements HeroAttack{
         this.spell_storage=new ArrayList<Item_Spell>();
 	}
 	
+	
 	public void setHeroPosition(LOVBoard board, int row, int col){
-		//leaveHeroPosition(board);
-		board.setCellIsHero(heroNum, row, col);
+		LOVCell temp = board.getCell(row,col);
+        char[] pos = temp.getPositions();
 		this.row = row;
 		this.col = col;
-		char celltype = board.getCelltype(row, col);
-		if(celltype=='B'){
-			this.dexterity += this.dexterity*0.1;
-		}else if(celltype == 'C'){
-			this.agility += this.agility*0.1;
-		}else if(celltype=='K'){
-			this.strength += this.strength*0.1;
-		}
+		if (Character.toString(pos[0]).equals(Character.toString(' '))){
+            temp.setPositions(new char[]{'1',' '});
+        }
+        else{
+            temp.setPositions(new char[]{' ','1'});
+        }
 	}
+	
+	
 	
 	public void setHeroType(String str) {
 		this.heroType = str;

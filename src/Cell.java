@@ -6,15 +6,15 @@ public class Cell {
 	private int row;
 	private int col;
 	private char cellType;
-	private int isHero;
-	private int isMonster;
+//	private int isHero;
+//	private int isMonster;
 	
 	public Cell(int row, int col, char cellType) {
 		this.row = row;
 		this.col = col;
 		this.cellType= cellType;
-		this.isHero = 0;
-		this.isMonster = 0;
+//		this.isHero = 0;
+//		this.isMonster = 0;
 	}
 	
 	public int getRow() {
@@ -33,6 +33,7 @@ public class Cell {
         return this.cellType;
     }
 
+    /*
     public void setIsHero(int num) {
     	this.isHero = num;
     }
@@ -45,6 +46,6 @@ public class Cell {
     public int getIsMonster() {
     	return this.isMonster;
     }
-	
+	*/
 }
 

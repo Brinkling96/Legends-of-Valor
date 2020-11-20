@@ -45,6 +45,7 @@ public class Board {
 		return temp.getCellType();
 	}
 	
+	/*
 	public void setCellIsHero(int num, int row, int col){
 		board[row][col].setIsHero(num);
 	}
@@ -52,7 +53,7 @@ public class Board {
 	public void setCellIsMonster(int num, int row, int col){
 		board[row][col].setIsMonster(num);
 	}
-	
+	*/
 	public void printBoard() {
 		System.out.print("+");
 		for(int k = 0; k < colNum; k++) {
@@ -90,10 +91,14 @@ public class Board {
 		return 0;
 	}
 	
-	public boolean checkCellAccess(int row, int col){
-		if(board[row][col].getCellType()=='&'){
-			return true;
-		}else if(board[row][col].getIsHero()>0) {
+	/*
+	public boolean checkCellAccess(Hero hero, int row, int col){
+		
+		LOVCell temp = board.getCell(hero.getRow()+1,hero.getCol());
+        char[] pos = temp.getPositions();
+        
+        
+        if(board[row][col].getIsHero()>0) {
 			return true;
 		}else if(board[row][col].getIsMonster()>0) {
 			return true;
@@ -101,5 +106,6 @@ public class Board {
 			return false;
 		}
 	}
+	*/
 
 }
