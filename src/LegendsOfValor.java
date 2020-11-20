@@ -101,9 +101,9 @@ public class LegendsOfValor extends MonsterGame {
             }else if(str.charAt(0)== 'z'){
 
             }else if(str.charAt(0)== 'b'){
-
+            	done = BackNexus(hero);
             }else if(str.charAt(0)== 'm'){
-            	
+            	done = ShopInNexus(hero);
             }else if(str.charAt(0)== 'q'){
                 Patterns.printBye();
                 System.exit(0);
@@ -195,10 +195,57 @@ public class LegendsOfValor extends MonsterGame {
         }
     }
 
-    //private boolean BackNexus() {
+    private boolean BackNexus(Hero hero) {
+    	String fullNexus = "The Nexus is already full! You should Teleport to another lane and back to Nexus!";
+    	if(hero.getCol()==0||hero.getCol()==1) {
+    		if(board.checkCellAccess(7, 0) ||board.checkCellAccess(7, 1)) {
+        		System.out.println(fullNexus);
+        		return false;
+        	}else {
+        		if(!board.checkCellAccess(7, 0)) {
+        			hero.setHeroPosition(board,7, 0);
+        		}else {
+        			hero.setHeroPosition(board,7, 1);
+        		}
+        		return true;
+        	}
+    	}else if(hero.getCol()==3||hero.getCol()==4) {
+    		if(board.checkCellAccess(7, 3) ||board.checkCellAccess(7, 4)) {
+        		System.out.println(fullNexus);
+        		return false;
+        	}else {
+        		if(!board.checkCellAccess(7, 3)) {
+        			hero.setHeroPosition(board,7, 3);
+        		}else {
+        			hero.setHeroPosition(board,7, 4);
+        		}
+        		return true;
+        	}
+    	}else {
+    		if(board.checkCellAccess(7, 6) ||board.checkCellAccess(7, 7)) {
+        		System.out.println(fullNexus);
+        		return false;
+        	}else {
+        		if(!board.checkCellAccess(7, 6)) {
+        			hero.setHeroPosition(board,7, 6);
+        		}else {
+        			hero.setHeroPosition(board,7, 7);
+        		}
+        		return true;
+        	}
+    	}
     	
-    //}
+    }
     
+    private boolean ShopInNexus(Hero hero) {
+    	if(hero.getRow()==7) {
+    		market.visitMarket(hero);
+    		return false;
+    	}else {
+    		System.out.println("Sorry! you are not in Nexus! Cannot shopping! Please choose another action!");
+    		return false;
+    	}
+    }
     
     private ArrayList<Monster> checkTargets(Hero actor) {
         int row = actor.getRow();
@@ -242,7 +289,7 @@ public class LegendsOfValor extends MonsterGame {
             System.out.println("Inaccessible spot!");
             return false;
         }
-        else if( Character.toString(pos[0]).equals(Character.toString(' '))  || Character.toString(pos[1]).equals(Character.toString(' '))){
+        else if( !Character.toString(pos[0]).equals(Character.toString(' '))  || !Character.toString(pos[1]).equals(Character.toString(' '))){
             System.out.println("No avalible spot");
             return false;
         }
