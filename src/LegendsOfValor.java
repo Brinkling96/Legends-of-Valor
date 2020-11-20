@@ -95,15 +95,16 @@ public class LegendsOfValor extends MonsterGame {
                 return moveHeroRight(hero);
             }else if(str.charAt(0)== 'f'){
             }else if(str.charAt(0)== 't'){
-                done = Teleport(hero);
+                return Teleport(hero);
             }else if(str.charAt(0)== 'i'){
-                
+                return Inventory(hero);
             }else if(str.charAt(0)== 'z'){
-
+            	hero.printSingleHero(hero);
+            	return false;
             }else if(str.charAt(0)== 'b'){
-            	done = BackNexus(hero);
+            	return BackNexus(hero);
             }else if(str.charAt(0)== 'm'){
-            	done = ShopInNexus(hero);
+            	return ShopInNexus(hero);
             }else if(str.charAt(0)== 'q'){
                 Patterns.printBye();
                 System.exit(0);
@@ -245,6 +246,15 @@ public class LegendsOfValor extends MonsterGame {
     		System.out.println("Sorry! you are not in Nexus! Cannot shopping! Please choose another action!");
     		return false;
     	}
+    }
+    
+    private boolean Inventory(Hero hero) {
+    	System.out.println(hero.getName()+":");
+    	hero.printArmorStora();
+    	hero.printPotionStora();
+    	hero.printSpellStora();
+    	hero.printWeaponStora();
+    	return false;
     }
     
     private ArrayList<Monster> checkTargets(Hero actor) {

@@ -308,6 +308,35 @@ public class Hero extends Creature implements HeroAttack{
         }
     }
     
+    public void printSingleHero(Hero hero) {
+    	String name, mana, hp, stre, agi, dex, exp, lv;
+		System.out.print("\n");
+		System.out.println("Your team members: ");
+		System.out.println(">>>>>>>>>>>>>>>>>>>>");
+		System.out.print("\n");
+		System.out.println("Name"+ "                        " + "Magic Power"+ "		   "+"Health Power"+ "              "+ "Strength" + "                "+ "Agility"+ "                 "+"Dexterity"+ "              "+ "Experience"+"              "+ "Level");
+		System.out.println("-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+        	name = hero.getName();
+        	name = space(name,20);
+        	mana = Integer.toString(hero.getMana());
+        	mana = space(mana,16);
+        	hp = Integer.toString(hero.getHp());
+        	hp = space(hp,10);
+        	stre = Integer.toString(hero.getStre());
+        	stre = space(stre,10);
+        	agi = Integer.toString(hero.getAgi());
+        	agi = space(agi,10);
+        	dex = Integer.toString(hero.getDex());
+        	dex = space(dex,10);
+        	exp = Integer.toString(hero.getExp());
+        	exp = space(exp,10);
+        	lv = Integer.toString(hero.getLv());
+        	lv = space(lv,10);
+        	System.out.println(name + "		"+mana+"	"+hp+"		"+stre+"		"+agi+"		"+dex+"		"+exp+"		"+lv);
+		System.out.println("-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+    }
+    
+    
 	private int isInt() {
 		while(!in.hasNextInt()) {
 			System.out.print("Invalid input! Please enter a number: ");
