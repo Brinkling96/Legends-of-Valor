@@ -1,22 +1,24 @@
 package src;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 import java.util.Vector;
 
 public class LegendsOfValor extends MonsterGame {
 
 
     //Characters
-    private ArrayList<Hero> Heros;
-    private ArrayList<Monster> Villains;
 
     //World
     private LOVBoard board;
 
+    public LegendsOfValor(){
+        super(new MAHHeroFactory(new Scanner(System.in)), null,null,new LOVBoardFactory(),8,8);
+        this.board = (LOVBoard) (super.board);
+    }
+
     public LegendsOfValor(HeroFactory H_factory, ArrayList<Monster> monsterList, MonsterFactory allMonsters, BoardFactory B_Factory, int rows, int columns, ArrayList<Hero> heros, ArrayList<Monster> villains) {
         super(H_factory, monsterList, allMonsters, B_Factory, rows, columns);
-        Heros = heros;
-        Villains = villains;
     }
 
 
@@ -26,6 +28,14 @@ public class LegendsOfValor extends MonsterGame {
 
     private void gameBegin(){
         //Effect: Creates game
+        int i =0;
+        for(Hero hero:Heros ){
+            if (i*3 == 12){
+                System.out.println("no");
+            }
+            hero.setHeroPosition(board, 7,i*3);
+            board.getCell(7,i++*3).setPositions(new char[]{Integer.toString(i).charAt(0), ' '});
+        }
     }
 
     private void basicInfo(){
@@ -75,20 +85,19 @@ public class LegendsOfValor extends MonsterGame {
     private boolean CheckInput(Hero hero){
         String str = in.next();
         str = str.toLowerCase();
+        boolean done = false;
         while(true){
             if(str.charAt(0)== 'w'){
-
+                return moveHeroUp(hero);
             }else if(str.charAt(0)== 'a'){
-
+                return moveHeroLeft(hero);
             }else if(str.charAt(0)== 's'){
-
+                return moveHeroDown(hero);
             }else if(str.charAt(0)== 'd'){
-
+                return moveHeroRight(hero);
             }else if(str.charAt(0)== 'f'){
-                
             }else if(str.charAt(0)== 't'){
-                boolean tel = Teleport(hero);
-                return tel;
+                done = Teleport(hero);
             }else if(str.charAt(0)== 'i'){
                 
             }else if(str.charAt(0)== 'z'){
@@ -179,15 +188,14 @@ public class LegendsOfValor extends MonsterGame {
 
     }
 
-
-    public ArrayList<Monster> checkTargets(Hero actor) {
+    private ArrayList<Monster> checkTargets(Hero actor) {
         int row = actor.getRow();
         int col = actor.getCol();
         ArrayList<Monster> returnlist = new ArrayList<Monster>();
         //Creature
         for (int i = row - 1; i < row + 1; i++) {
             for (int j = col - 1; j < col + 1; j++) {
-                for (Monster mon : Villains) {
+                for (Monster mon : monsterList) {
                     if (mon.getRow() == i && mon.getCol() == j) {
                         returnlist.add(mon);
                     }
@@ -197,8 +205,138 @@ public class LegendsOfValor extends MonsterGame {
         return returnlist;
     }
 
-    public void displayTargets(ArrayList<Monster> tgts, MonsterFactory fc){
+    private void displayTargets(ArrayList<Monster> tgts, MonsterFactory fc){
         fc.printMonster(tgts);
+    }
+
+    private Monster chooseFromMonster(ArrayList<Monster> monster) {
+        allMonsters.printMonster(monster);
+        System.out.print("Please enter a number to choose a monster to confront (0 - "+(monster.size()-1)+"): ");
+        in.nextLine();
+        int num = isInt();
+        while(num<0||num>(monster.size()-1)) {
+            System.out.println("Invalid number!");
+            System.out.print("Please enter a number to choose a monster to confront (0 - "+(monster.size()-1)+"): ");
+            in.nextLine();
+            num = isInt();
+        }
+        Monster m = monster.get(num);
+        return m;
+    }
+
+    private boolean moveHeroUp(Hero hero){
+        LOVCell temp = board.getCell(hero.getRow()-1,hero.getCol());
+        char[] pos = temp.getPositions();
+        if(!checkMove(temp)){
+            return false;
+        }
+        else {
+            LOVCell old = board.getCell(hero.getRow(),hero.getCol());
+            cleanUpOldCell(old,'1');
+            hero.setHeroPosition(board, hero.getRow() - 1, hero.getCol());
+            if (Character.toString(pos[0]).equals(Character.toString(' '))){
+                temp.setPositions(new char[]{'1',' '});
+            }
+            else{
+                temp.setPositions(new char[]{' ','1'});
+            }
+
+        }
+        temp.doBoostBehavior(hero);
+        return true;
+    }
+
+    private boolean checkMove(LOVCell cell){
+        char[] pos = cell.getPositions();
+        if(cell.getCellType() == '&'){
+            System.out.println("Inaccessible spot!");
+            return false;
+        }
+        else if( Character.toString(pos[0]).equals(Character.toString(' '))  || Character.toString(pos[1]).equals(Character.toString(' '))){
+            System.out.println("No avalible spot");
+            return false;
+        }
+        return true;
+    }
+
+
+    private void cleanUpOldCell(LOVCell old, char c){
+        char[] oldPos = old.getPositions();
+        if(oldPos[0] == c){
+            oldPos[0] = ' ';
+        }
+        else{
+            oldPos[1] = ' ';
+        }
+        old.setPositions(oldPos);
+    }
+
+    private boolean moveHeroDown(Hero hero){
+        LOVCell temp = board.getCell(hero.getRow()+1,hero.getCol());
+        char[] pos = temp.getPositions();
+        if(!checkMove(temp)){
+            return false;
+        }
+        else {
+            LOVCell old = board.getCell(hero.getRow(),hero.getCol());
+            cleanUpOldCell(old,'1');
+            hero.setHeroPosition(board, hero.getRow() + 1, hero.getCol());
+            if (Character.toString(pos[0]).equals(Character.toString(' '))){
+                temp.setPositions(new char[]{'1',' '});
+            }
+            else {
+                temp.setPositions(new char[]{' ', '1'});
+            }
+
+        }
+        temp.doBoostBehavior(hero);
+        return true;
+    }
+
+
+
+    private boolean moveHeroLeft(Hero hero){
+        LOVCell temp = board.getCell(hero.getRow(),hero.getCol()-1);
+        char[] pos = temp.getPositions();
+        if(!checkMove(temp)){
+            return false;
+        }
+        else {
+            LOVCell old = board.getCell(hero.getRow(),hero.getCol());
+            cleanUpOldCell(old,'1');
+            hero.setHeroPosition(board, hero.getRow(), hero.getCol()-1);
+            if (Character.toString(pos[0]).equals(Character.toString(' '))){
+                temp.setPositions(new char[]{'1',' '});
+            }
+            else {
+                temp.setPositions(new char[]{' ', '1'});
+            }
+
+        }
+        temp.doBoostBehavior(hero);
+        return true;
+    }
+
+    private boolean moveHeroRight(Hero hero){
+        LOVCell temp = board.getCell(hero.getRow(),hero.getCol()+1);
+        char[] pos = temp.getPositions();
+        if(!checkMove(temp)){
+            return false;
+        }
+        else {
+            LOVCell old = board.getCell(hero.getRow(),hero.getCol());
+            cleanUpOldCell(old,'1');
+            hero.setHeroPosition(board, hero.getRow() , hero.getCol()+1);
+            if (Character.toString(pos[0]).equals(Character.toString(' '))){
+                temp.setPositions(new char[]{'1',' '});
+            }
+            else {
+                temp.setPositions(new char[]{' ', '1'});
+            }
+
+        }
+        temp.doBoostBehavior(hero);
+        return true;
     }
 
 
@@ -207,7 +345,12 @@ public class LegendsOfValor extends MonsterGame {
 
     @Override
     public void start() {
-        //Begins game loop
+        gameBegin();
+        System.out.println(board.toString());
+        while(true) {
+            HeroAction(Heros.get(0));
+            System.out.println(board.toString());
+        }
     }
 }
 
