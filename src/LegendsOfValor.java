@@ -347,8 +347,10 @@ public class LegendsOfValor extends MonsterGame {
         gameBegin();
         System.out.println(board.toString());
         while(true) {
-            HeroAction(Heros.get(0));
-            System.out.println(board.toString());
+            for(Hero hero: Heros) {
+                while(!HeroAction(hero));
+                System.out.println(board.toString());
+            }
         }
     }
 }

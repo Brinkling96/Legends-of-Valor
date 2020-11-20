@@ -23,7 +23,7 @@ public final class MAHHeroFactory implements HeroFactory{
 		promptHeroChoose(party);
 		int i = 0;
 		for(Hero hero: party){
-			hero.setMarker(Integer.toString(i).charAt(0));
+			hero.setMarker(Integer.toString(++i).charAt(0));
 		}
 		return party;
 	}
