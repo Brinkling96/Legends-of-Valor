@@ -8,10 +8,10 @@ public abstract class LOVCell extends Cell implements LOVBoostStrategy{
 
     public LOVCell(int row, int col, char cellType) {
         super(row, col, cellType);
-        this.positions = new char[2];
+        this.positions = new char[]{' ',' '};
         this.display = new ArrayList<String>();
         display.add(cellType + "------"+ cellType);
-        display.add("| "+ ' ' + "  " + ' ' + " |");
+        display.add("| "+ this.positions[0] +"  "+ this.positions[1] +" |");
         display.add(cellType + "------"+ cellType);
     }
 

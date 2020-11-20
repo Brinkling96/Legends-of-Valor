@@ -21,6 +21,10 @@ public final class MAHHeroFactory implements HeroFactory{
 	public ArrayList<Hero> createParty() {
 		ArrayList<Hero> party = new ArrayList<Hero>();
 		promptHeroChoose(party);
+		int i = 0;
+		for(Hero hero: party){
+			hero.setMarker(Integer.toString(i).charAt(0));
+		}
 		return party;
 	}
 

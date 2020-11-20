@@ -16,6 +16,8 @@ public class Hero extends Creature implements HeroAttack{
     protected int cellAgi;
     protected int cellDex;
 
+    protected char marker;
+
     private int money;
     private int exp;
     private String heroType;
@@ -35,6 +37,8 @@ public class Hero extends Creature implements HeroAttack{
         this.strength= stre;
         this.agility=agi;
         this.dexterity= dex;
+
+
         this.money= money;
         this.exp = exp;
         this.weapon_storage= new  ArrayList<Item_Weapon> ();
@@ -42,18 +46,26 @@ public class Hero extends Creature implements HeroAttack{
         this.potion_storage= new ArrayList<Item_Potion>();
         this.spell_storage=new ArrayList<Item_Spell>();
 	}
-	
-	
+
+
+	public char getMarker() {
+		return marker;
+	}
+
+	public void setMarker(char marker) {
+		this.marker = marker;
+	}
+
 	public void setHeroPosition(LOVBoard board, int row, int col){
 		LOVCell temp = board.getCell(row,col);
         char[] pos = temp.getPositions();
 		this.row = row;
 		this.col = col;
-		if (Character.toString(pos[0]).equals(Character.toString(' '))){
-            temp.setPositions(new char[]{'1',' '});
+		if (pos[0] == ' '){
+            temp.setPositions(new char[]{marker,pos[1]});// needs to be set to old position
         }
         else{
-            temp.setPositions(new char[]{' ','1'});
+            temp.setPositions(new char[]{pos[0],marker});
         }
 	}
 	

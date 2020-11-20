@@ -23,20 +23,6 @@ public class LOVBoard extends Board{
                 for (int j = 0; j < board[i].length; j++) {
                     LOVCell lovcell = (LOVCell) board[i][j];
                     gameBoard += lovcell.display().get(k) + " ";
-                    /*
-                    for(int h = 0;h<3;h++){
-    					if(hero.get(h).getRow()==i && hero.get(h).getCol()==j){
-    						board[i][j].setIsHero(h);
-    					}
-    				}
-                    
-                    for(int m = 1;m<=monster.size();m++){
-    					if(monster.get(m-1).getRow()==i && monster.get(m-1).getCol()==j){
-    						board[i][j].setIsMonster(m);
-    					}
-    				}
-
-                     */
                 }
 
                 gameBoard += '\n';
@@ -49,7 +35,7 @@ public class LOVBoard extends Board{
     public boolean checkCellAccess(int row, int col){
 		LOVCell temp = getCell(row, col);
         char[] pos = temp.getPositions();
-        if(!Character.toString(pos[0]).equals(Character.toString(' ')) && !Character.toString(pos[1]).equals(Character.toString(' '))) {
+        if(!(pos[0] == ' ') || !(pos[1] == ' ')) {
 			return true;
 		}else {
 			return false;
