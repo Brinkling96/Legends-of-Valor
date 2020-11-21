@@ -491,15 +491,14 @@ public class LegendsOfValor extends MonsterGame {
     }
 
 
-    private boolean checkMove(LOVCell cell){
+    private boolean checkMove(LOVCell cell, Creature c){
         char[] pos = cell.getPositions();
         if(cell.getCellType() == '&'){
             System.out.println("Inaccessible spot!");
             return false;
-        }
-        else if( ! (pos[0] == ' ')  && !(pos[1] == ' ')){
-            System.out.println("No avalible spot");
-            return false;
+        }else if(c.getMarker()==pos[0] || c.getMarker()==pos[1]) {
+        	System.out.println("No avalible spot");
+        	return false;
         }
         return true;
     }
@@ -519,7 +518,7 @@ public class LegendsOfValor extends MonsterGame {
     private boolean moveHero(MoveCommand moveCommand, Hero hero){
         try {
             LOVCell temp = moveCommand.getCell(board,hero);
-            if (!checkMove(temp)) {
+            if (!checkMove(temp, hero)) {
                 return false;
             } else {
                 LOVCell old = board.getCell(hero.getRow(), hero.getCol());
@@ -538,7 +537,7 @@ public class LegendsOfValor extends MonsterGame {
     private boolean moveMonster(MoveCommand moveCommand, Monster monster){
         try {
             LOVCell temp = moveCommand.getCell(board,monster);
-            if (!checkMove(temp)) {
+            if (!checkMove(temp, monster)) {
                 return false;
             } else {
                 LOVCell old = board.getCell(monster.getRow(), monster.getCol());

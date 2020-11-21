@@ -28,7 +28,7 @@ public class Creature{
 		char[] pos = temp.getPositions();
 		this.row = row;
 		this.col = col;
-		if (pos[0] == ' '){
+		if (marker !='M'){
 			temp.setPositions(new char[]{marker,pos[1]});// needs to be set to old position
 		}
 		else{
