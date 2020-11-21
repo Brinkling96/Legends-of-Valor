@@ -153,18 +153,7 @@ public class LegendsOfValor extends MonsterGame {
             }else if(str.charAt(0)== 't'){
                 return Teleport(hero);
             }else if(str.charAt(0)== 'i'){
-                System.out.println("[D]isplay Inventory   Use [P]otion  Equip [I]tem");
-                String str2 = in.next();
-                str2 = str.toLowerCase();
-                if(str2.charAt(0)== 'd'){
-                    return Inventory(hero);
-                }
-                else if(str2.charAt(0) == 'p'){
-                    return usePotion(hero);
-                }
-                else if(str2.charAt(0) == 'i'){
-                    return equipItem(hero);
-                }
+                return doInventoryThings(hero);
 
             }else if(str.charAt(0)== 'z'){
             	hero.printSingleHero(hero);
@@ -314,6 +303,21 @@ public class LegendsOfValor extends MonsterGame {
     		System.out.println("Sorry! you are not in Nexus! Cannot shopping! Please choose another action!");
     		return false;
     	}
+    }
+
+    private boolean doInventoryThings(Hero hero){
+        while(true) {
+            System.out.println("[D]isplay Inventory   Use [P]otion  Equip [I]tem");
+            String str2 = in.next();
+            str2 = str2.toLowerCase();
+            if (str2.charAt(0) == 'd') {
+                return Inventory(hero);
+            } else if (str2.charAt(0) == 'p') {
+                return usePotion(hero);
+            } else if (str2.charAt(0) == 'i') {
+                return equipItem(hero);
+            }
+        }
     }
     
     private boolean Inventory(Hero hero) {
