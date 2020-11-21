@@ -7,10 +7,17 @@ public class LegendsOfValor extends MonsterGame {
 
     private LOVBoard board;
     private ArrayList<Hero> HeroList = new ArrayList<Hero>();
+
+    private int winCond;
+    //if a nexus is occupied, if wincon<0 villains win, else heros
+    private int Nexi_occupied;
+    //true means that we can start checking if winCond is equal to or greater than 0
     
     public LegendsOfValor(){
         super(new LOVHeroFactory(new Scanner(System.in)), new ArrayList<Monster>(),new MonsterFactory(),new LOVBoardFactory(),8,8);
         this.board = (LOVBoard) (super.board);
+        this.winCond = 0;
+        this.Nexi_occupied = 0;
     }
 
     public LegendsOfValor(HeroFactory H_factory, ArrayList<Monster> monsterList, MonsterFactory allMonsters, BoardFactory B_Factory, int rows, int columns, ArrayList<Hero> heros, ArrayList<Monster> villains) {
@@ -32,7 +39,7 @@ public class LegendsOfValor extends MonsterGame {
             monster.setCreaturePosition(board, 0, i*3);
             monsterList.add(monster);
             board.getCell(7,i*3).setPositions(new char[]{hero.getMarker(), ' '});
-            board.getCell(0,i++*3).setPositions(new char[]{monster.getMarker(), ' '});
+            board.getCell(0,i++*3).setPositions(new char[]{' ', monster.getMarker()});
         }
     }
 
@@ -45,26 +52,21 @@ public class LegendsOfValor extends MonsterGame {
     }
 
     private void doHerosTurn(){
-        //Effect:Loops through heros and do PlayerCharacter.doTurn()
+        for(Hero hero: Heros) {
+            while(!HeroAction(hero));
+            System.out.println(board.toString());
+        }
     }
 
     private void doVillainsTurn(){
-        //Effect: Loops thru villains and do Monster.doTurn()
+        for(Monster monster: monsterList) {
+            while (!MonsterAction(monster));
+            System.out.println(board.toString());
+        }
     }
 
     private boolean IsOver(){
-        //Effect: returns if game is complete
-        return false;
-    }
-
-    private boolean IsVillainWin(){
-        //Effect: returns if true If Monsters won
-        return false;
-    }
-
-    private boolean IsHeroWin(){
-        //Effect: returns if true If Hero win
-        return false;
+        return isMonsterWin() || isHeroWin();
     }
 
     private boolean HeroAction(Hero hero){
@@ -112,7 +114,6 @@ public class LegendsOfValor extends MonsterGame {
     private boolean CheckInput(Hero hero){
         String str = in.next();
         str = str.toLowerCase();
-        boolean done = false;
         while(true){
             if(str.charAt(0)== 'w'){
                 return moveHero(new MoveUPCommand(), hero);
@@ -123,38 +124,11 @@ public class LegendsOfValor extends MonsterGame {
             }else if(str.charAt(0)== 'd'){
                 return moveHero(new MoveRightCommand(), hero);
             }else if(str.charAt(0)== 'f'){
-                ArrayList<Monster> tgts = checkHerosTargets(hero);
-                if (tgts.size() > 0) {
-                    Monster m = chooseFromMonster(tgts);
-                    if (m == null){
-                        return false;
-                    }
-                    else{
-                        HerosTurn(hero,m);
-                        if(m.isDead()){
-                            System.out.println(m.getName() + " is dead");
-                            cleanUpOldCell(board.getCell(m.row,m.col), m.getMarker());
-                            monsterList.remove(m);
-                            hero.addExp(2);
-                            hero.addMoney(100*m.level);
-                            if(hero.checkLvUp()){
-                                System.out.println(hero.getName() + " levels up to "+ hero.level+1 );
-                                hero.levelUp();
-                            }
-                        }
-                        return true;
-                    }
-                }
-                else{
-                    System.out.println("No Targets in range!");
-                    return true;
-                }
-
+               return dofight(hero);
             }else if(str.charAt(0)== 't'){
                 return Teleport(hero);
             }else if(str.charAt(0)== 'i'){
                 return doInventoryThings(hero);
-
             }else if(str.charAt(0)== 'z'){
             	hero.printSingleHero(hero);
             	return false;
@@ -431,6 +405,35 @@ public class LegendsOfValor extends MonsterGame {
             System.exit(0);
         }
     }
+
+    public boolean dofight(Hero hero){
+        ArrayList<Monster> tgts = checkHerosTargets(hero);
+        if (tgts.size() > 0) {
+            Monster m = chooseFromMonster(tgts);
+            if (m == null){
+                return false;
+            }
+            else{
+                HerosTurn(hero,m);
+                if(m.isDead()){
+                    System.out.println(m.getName() + " is dead");
+                    cleanUpOldCell(board.getCell(m.row,m.col), m.getMarker());
+                    monsterList.remove(m);
+                    hero.addExp(2);
+                    hero.addMoney(100*m.level);
+                    if(hero.checkLvUp()){
+                        System.out.println(hero.getName() + " levels up to "+ hero.level+1 );
+                        hero.levelUp();
+                    }
+                }
+                return true;
+            }
+        }
+        else{
+            System.out.println("No Targets in range!");
+            return false;
+        }
+    }
     
     private ArrayList<Monster> checkHerosTargets(Hero actor) {
         int row = actor.getRow();
@@ -522,6 +525,14 @@ public class LegendsOfValor extends MonsterGame {
                 return false;
             } else {
                 LOVCell old = board.getCell(hero.getRow(), hero.getCol());
+                if(old.getCellType() == 'V'){
+                    Nexi_occupied--;
+                    winCond--;
+                }
+                if(temp.getCellType() == 'V'){
+                    Nexi_occupied++;
+                    winCond++;
+                }
                 cleanUpOldCell(old, hero.getMarker());
                 moveCommand.doLOVMove(board,hero);
             }
@@ -541,6 +552,15 @@ public class LegendsOfValor extends MonsterGame {
                 return false;
             } else {
                 LOVCell old = board.getCell(monster.getRow(), monster.getCol());
+                if(old.getCellType()== 'H'){
+                    Nexi_occupied--;
+                    winCond++;
+                }
+                if(temp.getCellType() == 'H'){
+                    Nexi_occupied++;
+                    winCond--;
+                }
+
                 cleanUpOldCell(old, monster.getMarker());
                 moveCommand.doLOVMove(board,monster);
             }
@@ -554,6 +574,24 @@ public class LegendsOfValor extends MonsterGame {
 
 
 
+    private boolean isMonsterWin(){
+        if(Nexi_occupied>0){
+            if(winCond<0){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean isHeroWin(){
+        if(Nexi_occupied>0){
+            if(winCond>0){
+                return true;
+            }
+        }
+        return false;
+    }
+
 
 
 
@@ -562,15 +600,15 @@ public class LegendsOfValor extends MonsterGame {
 
         gameBegin();
         System.out.println(board.toString());
-        while(true) {
-            for(Hero hero: Heros) {
-                while(!HeroAction(hero));
-                System.out.println(board.toString());
-            }
-            for(Monster monster: monsterList){
-                while(!MonsterAction(monster));
-                System.out.println(board.toString());
-            }
+        while(!IsOver()) {
+            doHerosTurn();
+            doVillainsTurn();
+        }
+        if(isHeroWin()){
+            System.out.println("Heros win!");
+        }
+        else{
+            System.out.println("Heros lose!");
         }
     }
 }
