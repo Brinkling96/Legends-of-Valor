@@ -72,4 +72,12 @@ public class Creature{
 	 public int getLv() {
 		 return this.level;
 	 }
+
+
+	 public boolean isDead(){
+	 	if(hp < 1){
+	 		return true;
+		}
+	 	return false;
+	 }
 }

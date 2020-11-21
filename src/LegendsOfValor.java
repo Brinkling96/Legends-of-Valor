@@ -83,6 +83,11 @@ public class LegendsOfValor extends MonsterGame {
         Hero tgt = checkMonstersTargets(monster);
         if(tgt != null){
             monster.attack(tgt);
+            if(tgt.isDead()){
+                System.out.println(tgt.getName() + " is dead");
+                cleanUpOldCell(board.getCell(tgt.row,tgt.col), tgt.getMarker());
+                tgt.setCreaturePosition(board, 7, tgt.getCol());
+            }
             return true;
         }
         if(moveMonster(new MoveDownCommand(), monster)){
@@ -118,6 +123,33 @@ public class LegendsOfValor extends MonsterGame {
             }else if(str.charAt(0)== 'd'){
                 return moveHero(new MoveRightCommand(), hero);
             }else if(str.charAt(0)== 'f'){
+                ArrayList<Monster> tgts = checkHerosTargets(hero);
+                if (tgts.size() > 0) {
+                    Monster m = chooseFromMonster(tgts);
+                    if (m == null){
+                        return false;
+                    }
+                    else{
+                        hero.attack(m);
+                        if(m.isDead()){
+                            System.out.println(m.getName() + " is dead");
+                            cleanUpOldCell(board.getCell(m.row,m.col), m.getMarker());
+                            monsterList.remove(m);
+                            hero.addExp(2);
+                            hero.addMoney(100*m.level);
+                            if(hero.checkLvUp()){
+                                System.out.println(hero.getName() + " levels up to "+ hero.level+1 );
+                                hero.levelUp();
+                            }
+                        }
+                        return true;
+                    }
+                }
+                else{
+                    System.out.println("No Targets in range!");
+                    return true;
+                }
+
             }else if(str.charAt(0)== 't'){
                 return Teleport(hero);
             }else if(str.charAt(0)== 'i'){
@@ -320,18 +352,25 @@ public class LegendsOfValor extends MonsterGame {
 
     private Monster chooseFromMonster(ArrayList<Monster> monster) {
         allMonsters.printMonster(monster);
-        System.out.print("Please enter a number to choose a monster to confront (0 - "+(monster.size()-1)+"): ");
+        String userMsg = "Please enter a number to choose a monster to confront (0 - "+(monster.size()-1)+") or enter -1 to do another action:  ";
+        System.out.print(userMsg);
         in.nextLine();
         int num = isInt();
-        while(num<0||num>(monster.size()-1)) {
+        while(num<-1||num>(monster.size()-1)) {
             System.out.println("Invalid number!");
-            System.out.print("Please enter a number to choose a monster to confront (0 - "+(monster.size()-1)+"): ");
+            System.out.print(userMsg);
             in.nextLine();
             num = isInt();
         }
-        Monster m = monster.get(num);
-        return m;
+        if(num == -1){
+            return null;
+        }
+        else {
+            Monster m = monster.get(num);
+            return m;
+        }
     }
+
 
     private boolean checkMove(LOVCell cell){
         char[] pos = cell.getPositions();
