@@ -425,9 +425,7 @@ public class MonsterANDHeroes extends MonsterGame {
 	        h.usePotion(h.getPotionStore().get(num));
 		}
 	}
-	
-	
-	
+
 	private void usePotion(MAHTeam team) {
 		Hero h = chooseFromTeam(team, "use potion");
 		if(h.getPotionStore().size()==0) {

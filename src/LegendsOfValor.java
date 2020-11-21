@@ -130,7 +130,7 @@ public class LegendsOfValor extends MonsterGame {
                         return false;
                     }
                     else{
-                        hero.attack(m);
+                        HerosTurn(hero,m);
                         if(m.isDead()){
                             System.out.println(m.getName() + " is dead");
                             cleanUpOldCell(board.getCell(m.row,m.col), m.getMarker());
@@ -153,7 +153,19 @@ public class LegendsOfValor extends MonsterGame {
             }else if(str.charAt(0)== 't'){
                 return Teleport(hero);
             }else if(str.charAt(0)== 'i'){
-                return Inventory(hero);
+                System.out.println("[D]isplay Inventory   Use [P]otion  Equip [I]tem");
+                String str2 = in.next();
+                str2 = str.toLowerCase();
+                if(str2.charAt(0)== 'd'){
+                    return Inventory(hero);
+                }
+                else if(str2.charAt(0) == 'p'){
+                    return usePotion(hero);
+                }
+                else if(str2.charAt(0) == 'i'){
+                    return equipItem(hero);
+                }
+
             }else if(str.charAt(0)== 'z'){
             	hero.printSingleHero(hero);
             	return false;
@@ -311,6 +323,109 @@ public class LegendsOfValor extends MonsterGame {
     	hero.printSpellStora();
     	hero.printWeaponStora();
     	return false;
+    }
+
+    private boolean usePotion(Hero h) {
+        if(h.getPotionStore().size()==0) {
+            System.out.print("Sorry! "+h.getName()+" does not have enough potion! Cannot use!");
+            return false;
+        }else {
+            h.printPotionStora();
+            System.out.print("Enter number of the potion to use (0 - "+ (h.getPotionStore().size()-1) +"): ");
+            in.nextLine();
+            int num = isInt();
+            while(num<0||(num>(h.getPotionStore().size()-1))){
+                System.out.println("Invalid input!");
+                System.out.print("Enter number of the potion to use (0 - "+ (h.getPotionStore().size()-1) +"): ");
+                in.nextLine();
+                num = isInt();
+            }
+            h.usePotion(h.getPotionStore().get(num));
+            return true;
+        }
+    }
+
+    private boolean equipItem(Hero h) {
+        System.out.println("Choose one for "+h.getName()+":");
+        System.out.println("	[A]Equip Armor		[B]Unequip Armor");
+        System.out.println("	[C]Equip Weapon		[D]Unequip Weapon: ");
+        System.out.println("	[E]Equip spell		[F]Unequip Spell");
+        System.out.print("	Or [Q]Quit Game: ");
+        String str = in.next();
+        str = str.toLowerCase();
+        while(str.charAt(0)!='a' && str.charAt(0)!='b' && str.charAt(0)!='c' && str.charAt(0)!='d' && str.charAt(0)!='e' && str.charAt(0)!='f' && str.charAt(0)!='q') {
+            System.out.println("Invalid Input!");
+            System.out.println("Choose one for "+h.getName()+":");
+            System.out.println("	[A]Equip Armor		[B]Unequip Armor");
+            System.out.println("	[C]Equip Weapon		[D]Unequip Weapon: ");
+            System.out.println("	[E]Equip spell		[F]Unequip Spell");
+            System.out.print("	Or [Q]Quit Game: ");
+            str = in.next();
+            str = str.toLowerCase();
+        }
+        if (str.charAt(0) == 'a'){
+            if(h.getArmorStore().size()==0) {
+                System.out.println("Sorry! "+h.getName()+"does not have enough armor to equip! Please buy in Market!");
+                equipItem(h);
+            }else {
+                h.equipArmor();
+                return true;
+            }
+        }else if(str.charAt(0) == 'b') {
+            h.unequipArmor();
+            return true;
+        }else if(str.charAt(0) == 'c') {
+            if(h.getWeaponStore().size()==0) {
+                System.out.println("Sorry! "+h.getName()+"does not have enough weapon to equip! Please buy in Market!");
+                equipItem(h);
+            }else {
+                h.equipWeapon();
+                return true;
+            }
+        }else if(str.charAt(0) == 'd') {
+            h.unequipWeapon();
+        }else if(str.charAt(0) == 'e') {
+            if(h.getSpellStore().size()==0) {
+                System.out.println("Sorry! "+h.getName()+"does not have enough spell to equip! Please buy in Market!");
+                equipItem(h);
+            }else {
+                h.equipSpell();
+                return true;
+            }
+        }else if(str.charAt(0) == 'd') {
+            h.unequipSpell();
+            return true;
+        }else {
+            Patterns.printBye();
+            System.exit(0);
+        }
+        return false;
+    }
+
+    public void HerosTurn(Hero h, Monster m) {
+        System.out.println("Choose one for "+h.getName()+":");
+        System.out.println("	[A]Attack");
+        System.out.println("	[C]Cast Spell");
+        System.out.print("	Or [Q]Quit Game: ");
+        String str = in.next();
+        str = str.toLowerCase();
+        while(str.charAt(0)!='a' && str.charAt(0)!='c' && str.charAt(0)!='u' && str.charAt(0)!='e' && str.charAt(0)!='q') {
+            System.out.println("Invalid Input!");
+            System.out.println("Choose one for "+h.getName()+":");
+            System.out.println("	[A]Attack");
+            System.out.println("	[C]Cast Spell");
+            System.out.print("	Or [Q]Quit Game: ");
+            str = in.next();
+            str = str.toLowerCase();
+        }
+        if (str.charAt(0) == 'A' || str.charAt(0) == 'a'){
+            h.attack(m);
+        }else if(str.charAt(0) == 'C' || str.charAt(0) == 'c') {
+            h.magicAttack(m);
+        }else {
+            Patterns.printBye();
+            System.exit(0);
+        }
     }
     
     private ArrayList<Monster> checkHerosTargets(Hero actor) {
