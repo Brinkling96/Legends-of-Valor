@@ -20,12 +20,7 @@ public class MonsterANDHeroes extends MonsterGame {
 	public static void intro() {
 		System.out.println("					Legends: Monsters and Heroes");
 		Patterns.printIntHead();
-		System.out.println("	In the ancient times kingdom Java, after defeating the commander of the evil troops Python, ");
-		System.out.println("	bestowned peace amongst humans and builted his capital. ");
-		System.out.println("	However, the peaceful land was in chaos again...\n");
-		Patterns.printSand();
-		System.out.println("Do you want to visit the basic information of the game?");
-		System.out.print("Enter yes/YES to visit or others to start the game: ");
+		Patterns.printIntro();
 		String y = in.next();
 		if(y.equals("YES")|| y.equals("yes")) {
 			basicInfo();

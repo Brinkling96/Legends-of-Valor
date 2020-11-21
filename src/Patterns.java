@@ -8,6 +8,16 @@ public class Patterns {
 		System.out.println("*********************************************************************************************************");
 	}
 	
+	public static void printIntro() {
+		printIntHead();
+		System.out.println("	In the ancient times kingdom Java, after defeating the commander of the evil troops Python, ");
+		System.out.println("	bestowned peace amongst humans and builted his capital. ");
+		System.out.println("	However, the peaceful land was in chaos again...\n");
+		printSand();
+		System.out.println("Do you want to visit the basic information of the game?");
+		System.out.print("Enter yes/YES to visit or others to start the game: ");
+	}
+	
 	public static void printSand() {
 		System.out.println("* * * * * 					");
 		System.out.println(" * * * * 					");
