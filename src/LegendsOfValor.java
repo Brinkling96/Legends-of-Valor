@@ -32,7 +32,7 @@ public class LegendsOfValor extends MonsterGame {
             monster.setCreaturePosition(board, 0, i*3);
             monsterList.add(monster);
             board.getCell(7,i*3).setPositions(new char[]{hero.getMarker(), ' '});
-            board.getCell(0,i++*3).setPositions(new char[]{monster.getMarker(), ' '});
+            board.getCell(0,i++*3).setPositions(new char[]{' ',monster.getMarker()});
         }
     }
 
@@ -59,11 +59,21 @@ public class LegendsOfValor extends MonsterGame {
 
     private boolean IsVillainWin(){
         //Effect: returns if true If Monsters won
+    	for(Monster monster: monsterList) {
+    		if( monster.getRow()==7) {
+    			return true;
+    		}
+    	}
         return false;
     }
 
     private boolean IsHeroWin(){
         //Effect: returns if true If Hero win
+    	for(Hero hero:Heros ){
+    		if( hero.getRow()==0) {
+    			return true;
+    		}
+    	}
         return false;
     }
 
