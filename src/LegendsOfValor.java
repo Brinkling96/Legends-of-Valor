@@ -19,9 +19,40 @@ public class LegendsOfValor extends MonsterGame {
 
 
     public static void intro(){
-        //d
+    	System.out.println("					Legends	of	Valor");
+		Patterns.printIntro();
+		String y = in.next();
+		if(y.equals("YES")|| y.equals("yes")) {
+			basicInfoLOV();
+		}
+		Patterns.printGameBegin();
     }
 
+    public static void basicInfoLOV() {
+		System.out.println("	Basic Information:");
+		System.out.println("	=====================\n");
+		System.out.println("	For movement:	W - move forward");
+		System.out.println("			A - move left");
+		System.out.println("			S - move backwards");
+		System.out.println("			D - move right");
+		System.out.println("You cannot move diagonally!\n");
+		System.out.println("In every round every heroes can:");
+		System.out.println("[W]Move Up     [A]Move left     [S]Move Down        [D]Move right");
+        System.out.println("[F]Fight monster nearby     [T]Teleport");
+		System.out.println("[B]Back to nexus        [M]Shopping in the nexus");
+        System.out.println("or [Q]Quit the game");
+		System.out.println("You should choose 3 heroes to fight!");
+		System.out.println("To fight, buy, sell or use an item follow the instructions given during the name(by typing what ever needed).");
+		System.out.println("To Quit game press q/Q whenever you are making a move. You CANNOT exit during a fight!");
+		System.out.print("Enter start/START whenever you are ready! ");
+		String s = in.next();
+		while(!s.equals("START")&&!s.equals("start")) {
+			System.out.print("Waiting for you...");
+			System.out.print("Enter start/START whenever you are ready! ");
+			s = in.next();
+		}
+	}
+    
     private void gameBegin(){
         //Effect: Creates game
         int i =0;
