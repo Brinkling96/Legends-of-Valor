@@ -2,7 +2,7 @@ package src;
 
 import java.util.Random;
 
-public class Monster extends Creature implements MonsterAttack{
+public class Monster extends Creature implements MonsterAttack, Cloneable{
 
 	//The class represent all Monsters, and extends Creature class
 	//the class also extended by class Monster_Dragons, Monster_Exoskeletons, Monster_Spirits
@@ -18,7 +18,12 @@ public class Monster extends Creature implements MonsterAttack{
         this.defense = defense;
         this.dodgeChance = dodgeC;
     }
-    
+
+	@Override
+	public Monster clone(){
+		return new Monster(this.name, this.level, this.damage, this.defense, this.dodgeChance);
+	}
+
 	public void setMonsterType(String str) {
 		this.monsterType = str;
 	}

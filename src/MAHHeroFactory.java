@@ -3,7 +3,7 @@ package src;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public final class MAHHeroFactory implements HeroFactory{
+public class MAHHeroFactory implements HeroFactory{
 
 	//the class initializes all heroes 
 	private ArrayList<Hero> allHeroes;
@@ -37,7 +37,7 @@ public final class MAHHeroFactory implements HeroFactory{
 		return n;
 	}
 
-	private int promptHeroCount() {
+	protected int promptHeroCount() {
 		System.out.print("Please enter the number of heroes (1-3): ");
 		in.nextLine();
 		int heroCount = isInt();
@@ -50,7 +50,7 @@ public final class MAHHeroFactory implements HeroFactory{
 
 	}
 
-	private void promptHeroChoose(ArrayList<Hero> party) {
+	protected void promptHeroChoose(ArrayList<Hero> party) {
 		//HeroFactory allHeroes = new HeroFactory();
 		printHeroes();
 		System.out.println();

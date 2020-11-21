@@ -5,12 +5,12 @@ public class MoveLeftCommand implements MoveCommand{
     }
 
     @Override
-    public LOVCell getCell(LOVBoard board, Hero hero) {
-        return board.getCell(hero.getRow(), hero.getCol()-1);
+    public LOVCell getCell(LOVBoard board, Creature actor) {
+        return board.getCell(actor.getRow(), actor.getCol()-1);
     }
 
     @Override
-    public void doLOVMove(LOVBoard board, Hero hero) {
-        hero.setHeroPosition(board, hero.getRow(), hero.getCol()-1);
+    public void doLOVMove(LOVBoard board, Creature actor) {
+        actor.setCreaturePosition(board, actor.getRow(), actor.getCol()-1);
     }
 }

@@ -7,12 +7,12 @@ public class MoveDownCommand implements MoveCommand{
 
 
     @Override
-    public LOVCell getCell(LOVBoard board, Hero hero) {
-        return board.getCell(hero.getRow() + 1, hero.getCol());
+    public LOVCell getCell(LOVBoard board, Creature actor) {
+        return board.getCell(actor.getRow() + 1, actor.getCol());
     }
 
     @Override
-    public void doLOVMove(LOVBoard board, Hero hero) {
-        hero.setHeroPosition(board, hero.getRow() + 1, hero.getCol());
+    public void doLOVMove(LOVBoard board, Creature actor) {
+        actor.setCreaturePosition(board, actor.getRow() + 1, actor.getCol());
     }
 }

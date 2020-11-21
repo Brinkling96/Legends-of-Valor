@@ -12,6 +12,8 @@ public class Creature{
 	 protected int row;
 	 protected int col;
 
+	protected char marker;
+
 
 	 
 	 
@@ -19,6 +21,28 @@ public class Creature{
 		 this.name = name;
 		 this.level = level;
 		 this.hp = 100*level;
+	}
+
+	public void setCreaturePosition(LOVBoard board, int row, int col){
+		LOVCell temp = board.getCell(row,col);
+		char[] pos = temp.getPositions();
+		this.row = row;
+		this.col = col;
+		if (pos[0] == ' '){
+			temp.setPositions(new char[]{marker,pos[1]});// needs to be set to old position
+		}
+		else{
+			temp.setPositions(new char[]{pos[0],marker});
+		}
+	}
+
+
+	public char getMarker() {
+		return marker;
+	}
+
+	public void setMarker(char marker) {
+		this.marker = marker;
 	}
 
 	public void setCellName(String n) {

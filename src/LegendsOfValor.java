@@ -2,16 +2,14 @@ package src;
 
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.Vector;
 
 public class LegendsOfValor extends MonsterGame {
 
     private LOVBoard board;
     private ArrayList<Hero> HeroList = new ArrayList<Hero>();
-    //private ArrayList<Monster> MonsterList = new ArrayList<Monster>();
     
     public LegendsOfValor(){
-        super(new MAHHeroFactory(new Scanner(System.in)), null,null,new LOVBoardFactory(),8,8);
+        super(new LOVHeroFactory(new Scanner(System.in)), new ArrayList<Monster>(),new MonsterFactory(),new LOVBoardFactory(),8,8);
         this.board = (LOVBoard) (super.board);
     }
 
@@ -28,11 +26,13 @@ public class LegendsOfValor extends MonsterGame {
         //Effect: Creates game
         int i =0;
         for(Hero hero:Heros ){
-            if (i*3 == 12){
-                System.out.println("no");
-            }
-            hero.setHeroPosition(board, 7,i*3);
-            board.getCell(7,i++*3).setPositions(new char[]{hero.getMarker(), ' '});
+            hero.setCreaturePosition(board, 7,i*3);
+            Monster monster = allMonsters.generateMonster(1,hero.level).get(0).clone();
+            monster.setMarker('M');
+            monster.setCreaturePosition(board, 0, i*3);
+            monsterList.add(monster);
+            board.getCell(7,i*3).setPositions(new char[]{hero.getMarker(), ' '});
+            board.getCell(0,i++*3).setPositions(new char[]{monster.getMarker(), ' '});
         }
     }
 
@@ -77,6 +77,30 @@ public class LegendsOfValor extends MonsterGame {
         System.out.println("or [Q]Quit the game");
         boolean input = CheckInput(hero);
         return input;
+    }
+
+    private boolean MonsterAction(Monster monster){
+        Hero tgt = checkMonstersTargets(monster);
+        if(tgt != null){
+            monster.attack(tgt);
+            return true;
+        }
+        if(moveMonster(new MoveDownCommand(), monster)){
+            return true;
+        }
+        else if(moveMonster(new MoveRightCommand(), monster)){
+            return true;
+        }
+        else if( moveMonster(new MoveLeftCommand(), monster)){
+            return true;
+        }
+        else if( moveMonster(new MoveUPCommand(), monster)){
+            return true;
+        }
+        else{
+            return false;
+        }
+
     }
 
 
@@ -141,13 +165,13 @@ public class LegendsOfValor extends MonsterGame {
             	LOVCell old = board.getCell(hero.getRow(),hero.getCol());
                 cleanUpOldCell(old,'1');
             	if(!board.checkCellAccess(hero.getRow(), 0)) {
-            		hero.setHeroPosition(board, hero.getRow(), 0);
+            		hero.setCreaturePosition(board, hero.getRow(), 0);
             	}else if(!board.checkCellAccess(hero.getRow(), 1)) {
-            		hero.setHeroPosition(board, hero.getRow(), 1);
+            		hero.setCreaturePosition(board, hero.getRow(), 1);
             	}else if(hero.getRow()==7) {
-            		hero.setHeroPosition(board, hero.getRow()-1, 0);
+            		hero.setCreaturePosition(board, hero.getRow()-1, 0);
             	}else {
-            		hero.setHeroPosition(board, hero.getRow()+1, 0);
+            		hero.setCreaturePosition(board, hero.getRow()+1, 0);
             	}
             	LOVCell temp = board.getCell(hero.getRow(),hero.getCol());
             	temp.doBoostBehavior(hero);
@@ -161,13 +185,13 @@ public class LegendsOfValor extends MonsterGame {
             	LOVCell old = board.getCell(hero.getRow(),hero.getCol());
                 cleanUpOldCell(old,hero.getMarker());
             	if(!board.checkCellAccess(hero.getRow(), 3)) {
-            		hero.setHeroPosition(board, hero.getRow(), 3);
+            		hero.setCreaturePosition(board, hero.getRow(), 3);
             	}else if(!board.checkCellAccess(hero.getRow(), 4)) {
-            		hero.setHeroPosition(board, hero.getRow(), 4);
+            		hero.setCreaturePosition(board, hero.getRow(), 4);
             	}else if(hero.getRow()==7) {
-            		hero.setHeroPosition(board, hero.getRow()-1, 3);
+            		hero.setCreaturePosition(board, hero.getRow()-1, 3);
             	}else {
-            		hero.setHeroPosition(board, hero.getRow()+1, 3);
+            		hero.setCreaturePosition(board, hero.getRow()+1, 3);
             	}
             	LOVCell temp = board.getCell(hero.getRow(),hero.getCol());
             	temp.doBoostBehavior(hero);
@@ -181,13 +205,13 @@ public class LegendsOfValor extends MonsterGame {
             	LOVCell old = board.getCell(hero.getRow(),hero.getCol());
                 cleanUpOldCell(old,'1');
             	if(!board.checkCellAccess(hero.getRow(), 6)) {
-            		hero.setHeroPosition(board, hero.getRow(), 6);
+            		hero.setCreaturePosition(board, hero.getRow(), 6);
             	}else if(!board.checkCellAccess(hero.getRow(), 7)) {
-            		hero.setHeroPosition(board, hero.getRow(), 7);
+            		hero.setCreaturePosition(board, hero.getRow(), 7);
             	}else if(hero.getRow()==7) {
-            		hero.setHeroPosition(board, hero.getRow()-1, 6);
+            		hero.setCreaturePosition(board, hero.getRow()-1, 6);
             	}else {
-            		hero.setHeroPosition(board, hero.getRow()+1, 6);
+            		hero.setCreaturePosition(board, hero.getRow()+1, 6);
             	}
             	LOVCell temp = board.getCell(hero.getRow(),hero.getCol());
             	temp.doBoostBehavior(hero);
@@ -204,9 +228,9 @@ public class LegendsOfValor extends MonsterGame {
         		return false;
         	}else {
         		if(!board.checkCellAccess(7, 0)) {
-        			hero.setHeroPosition(board,7, 0);
+        			hero.setCreaturePosition(board,7, 0);
         		}else {
-        			hero.setHeroPosition(board,7, 1);
+        			hero.setCreaturePosition(board,7, 1);
         		}
         		return true;
         	}
@@ -216,9 +240,9 @@ public class LegendsOfValor extends MonsterGame {
         		return false;
         	}else {
         		if(!board.checkCellAccess(7, 3)) {
-        			hero.setHeroPosition(board,7, 3);
+        			hero.setCreaturePosition(board,7, 3);
         		}else {
-        			hero.setHeroPosition(board,7, 4);
+        			hero.setCreaturePosition(board,7, 4);
         		}
         		return true;
         	}
@@ -228,9 +252,9 @@ public class LegendsOfValor extends MonsterGame {
         		return false;
         	}else {
         		if(!board.checkCellAccess(7, 6)) {
-        			hero.setHeroPosition(board,7, 6);
+        			hero.setCreaturePosition(board,7, 6);
         		}else {
-        			hero.setHeroPosition(board,7, 7);
+        			hero.setCreaturePosition(board,7, 7);
         		}
         		return true;
         	}
@@ -257,7 +281,7 @@ public class LegendsOfValor extends MonsterGame {
     	return false;
     }
     
-    private ArrayList<Monster> checkTargets(Hero actor) {
+    private ArrayList<Monster> checkHerosTargets(Hero actor) {
         int row = actor.getRow();
         int col = actor.getCol();
         ArrayList<Monster> returnlist = new ArrayList<Monster>();
@@ -272,6 +296,22 @@ public class LegendsOfValor extends MonsterGame {
             }
         }
         return returnlist;
+    }
+
+    private Hero checkMonstersTargets(Monster actor) {
+        int row = actor.getRow();
+        int col = actor.getCol();
+        //Creature
+        for (int i = row + 1; i > row - 1; i--) {
+            for (int j = col + 1; j > col - 1; j--) {
+                for (Hero hero : Heros) {
+                    if (hero.getRow() == i && hero.getCol() == j) {
+                        return hero;
+                    }
+                }
+            }
+        }
+        return null;
     }
 
     private void displayTargets(ArrayList<Monster> tgts, MonsterFactory fc){
@@ -337,6 +377,24 @@ public class LegendsOfValor extends MonsterGame {
         }
 	}
 
+    private boolean moveMonster(MoveCommand moveCommand, Monster monster){
+        try {
+            LOVCell temp = moveCommand.getCell(board,monster);
+            if (!checkMove(temp)) {
+                return false;
+            } else {
+                LOVCell old = board.getCell(monster.getRow(), monster.getCol());
+                cleanUpOldCell(old, monster.getMarker());
+                moveCommand.doLOVMove(board,monster);
+            }
+            return true;
+        }
+        catch(ArrayIndexOutOfBoundsException e){
+            System.out.println("Cannot move up anymore!");
+            return false;
+        }
+    }
+
 
 
 
@@ -344,11 +402,16 @@ public class LegendsOfValor extends MonsterGame {
 
     @Override
     public void start() {
+
         gameBegin();
         System.out.println(board.toString());
         while(true) {
             for(Hero hero: Heros) {
                 while(!HeroAction(hero));
+                System.out.println(board.toString());
+            }
+            for(Monster monster: monsterList){
+                while(!MonsterAction(monster));
                 System.out.println(board.toString());
             }
         }

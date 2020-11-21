@@ -16,7 +16,7 @@ public class Hero extends Creature implements HeroAttack{
     protected int cellAgi;
     protected int cellDex;
 
-    protected char marker;
+
 
     private int money;
     private int exp;
@@ -48,26 +48,8 @@ public class Hero extends Creature implements HeroAttack{
 	}
 
 
-	public char getMarker() {
-		return marker;
-	}
 
-	public void setMarker(char marker) {
-		this.marker = marker;
-	}
 
-	public void setHeroPosition(LOVBoard board, int row, int col){
-		LOVCell temp = board.getCell(row,col);
-        char[] pos = temp.getPositions();
-		this.row = row;
-		this.col = col;
-		if (pos[0] == ' '){
-            temp.setPositions(new char[]{marker,pos[1]});// needs to be set to old position
-        }
-        else{
-            temp.setPositions(new char[]{pos[0],marker});
-        }
-	}
 	
 	
 	
