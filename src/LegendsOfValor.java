@@ -479,7 +479,7 @@ public class LegendsOfValor extends MonsterGame {
         System.out.print("	Or [Q]Quit Game: ");
         String str = in.next();
         str = str.toLowerCase();
-        while(str.charAt(0)!='a' && str.charAt(0)!='c' && str.charAt(0)!='u' && str.charAt(0)!='e' && str.charAt(0)!='q') {
+        while(str.charAt(0)!='a' && str.charAt(0)!='c' && str.charAt(0)!='q') {
             System.out.println("Invalid Input!");
             System.out.println("Choose one for "+h.getName()+":");
             System.out.println("	[A]Attack");
