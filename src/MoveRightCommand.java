@@ -1,6 +1,7 @@
 package src;
 
 public class MoveRightCommand implements MoveCommand{
+	// the class represent command for move right 
     public MoveRightCommand() {
     }
 

@@ -1,12 +1,10 @@
 package src;
 
-
-
 import java.util.ArrayList;
 import java.util.Vector;
 
 public class LOVBoard extends Board{
-
+	//the class represents board of Legeand of Valor game
     public LOVBoard(Cell[][] board, int rowNum, int colNum) {
         super(board, rowNum, colNum);
     }

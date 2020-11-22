@@ -2,12 +2,12 @@ package src;
 
 import java.util.Scanner;
 
+// the class represent which game to select by player
 public class GameSelect {
 	static Scanner in = new Scanner(System.in);
 	
     public static void main(String[] args) {
-        //Effect:Begins logic for starting game select
-        //Something like selectGame().start()
+
 		MonsterGame game = selectGame();
 		game.start();
         

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class LegendsOfValor extends MonsterGame {
-
+	//the class represents the Legand of Valor game
 
     public final static int LOV_ROWS = 8;
     public final static int LOV_COLUMNS = 8;

@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class MAHHeroFactory implements HeroFactory{
 
-	//the class initializes all heroes 
+	//the class initializes all Monster and Heroes game heroes 
 	private ArrayList<Hero> allHeroes;
 	private Scanner in;
 	

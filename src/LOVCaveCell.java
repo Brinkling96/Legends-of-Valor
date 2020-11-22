@@ -1,6 +1,7 @@
 package src;
 
 public class LOVCaveCell extends LOVCell{
+	// the class represent cave cells which extend LOVCell
     public LOVCaveCell(int row, int col) {
         super(row, col, 'C');
 

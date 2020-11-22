@@ -3,6 +3,7 @@ package src;
 import java.util.ArrayList;
 
 public abstract class LOVCell extends Cell implements LOVBoostStrategy{
+	// the class represent LOVCell which is subclass of Cell and have ability of boostStrategy
     private char[] positions;
     private ArrayList<String> display;
 
