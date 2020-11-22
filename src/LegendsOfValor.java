@@ -358,6 +358,7 @@ public class LegendsOfValor extends MonsterGame {
 
     private boolean ShopInNexus(Hero hero) {
     	if(hero.getRow()==7) {
+    	    Patterns.printMarket();
     		market.visitMarket(hero);
     		return false;
     	}else {
@@ -750,10 +751,11 @@ public class LegendsOfValor extends MonsterGame {
             //respawn dead heros at nexus
         }
         if(isHeroWin()){
-            System.out.println("Heros win!");
+            Patterns.printVictory();
         }
         else{
-            System.out.println("Heros lose!");
+            Patterns.printDefeat();
         }
+        Patterns.printBye();
     }
 }

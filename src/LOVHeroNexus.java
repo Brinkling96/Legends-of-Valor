@@ -9,9 +9,6 @@ public class LOVHeroNexus extends LOVCell{
     @Override
     public void doBoostBehavior(Hero hero) {
         super.doBoostBehavior(hero);
-        System.out.println("Visit Market");
-        //if yes
-        Market.getInstance().visitMarket(hero);
     }
 
 }
