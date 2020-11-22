@@ -155,6 +155,7 @@ public class LegendsOfValor extends MonsterGame {
         System.out.println("[F]Fight monster nearby     [T]Teleport");
         System.out.println("[I]Inventory        [Z]Status");
 		System.out.println("[B]Back to nexus        [M]Shopping in the nexus");
+		System.out.println("[;]Skip turn");
         System.out.println("or [Q]Quit the game");
         boolean input = CheckInput(hero);
         return input;
@@ -193,30 +194,32 @@ public class LegendsOfValor extends MonsterGame {
 
     private boolean CheckInput(Hero hero){
         String str = in.next();
-        str = str.toLowerCase();
+        //str = str.toLowerCase();
         while(true){
-            if(str.charAt(0)== 'w'){
+            if(str.charAt(0)== 'w'||str.charAt(0)== 'W'){
                 return moveHero(new MoveUPCommand(), hero);
-            }else if(str.charAt(0)== 'a'){
+            }else if(str.charAt(0)== 'a'||str.charAt(0)== 'A'){
                 return moveHero(new MoveLeftCommand(), hero);
-            }else if(str.charAt(0)== 's'){
+            }else if(str.charAt(0)== 's'||str.charAt(0)== 'S'){
                 return moveHero(new MoveDownCommand(), hero);
-            }else if(str.charAt(0)== 'd'){
+            }else if(str.charAt(0)== 'd'||str.charAt(0)== 'D'){
                 return moveHero(new MoveRightCommand(), hero);
-            }else if(str.charAt(0)== 'f'){
+            }else if(str.charAt(0)== 'f'||str.charAt(0)== 'F'){
                return dofight(hero);
-            }else if(str.charAt(0)== 't'){
+            }else if(str.charAt(0)== 't'||str.charAt(0)== 'T'){
                 return Teleport(hero);
-            }else if(str.charAt(0)== 'i'){
+            }else if(str.charAt(0)== 'i'||str.charAt(0)== 'I'){
                 return doInventoryThings(hero);
-            }else if(str.charAt(0)== 'z'){
+            }else if(str.charAt(0)== 'z'||str.charAt(0)== 'Z'){
             	hero.printSingleHero(hero);
             	return false;
-            }else if(str.charAt(0)== 'b'){
+            }else if(str.charAt(0)== 'b'||str.charAt(0)== 'B'){
             	return BackNexus(hero);
-            }else if(str.charAt(0)== 'm'){
+            }else if(str.charAt(0)== 'm'||str.charAt(0)== 'M'){
             	return ShopInNexus(hero);
-            }else if(str.charAt(0)== 'q'){
+            }else if(str.charAt(0)== ';') {
+            	return true;
+            }else if(str.charAt(0)== 'q'||str.charAt(0)== 'Q'){
                 Patterns.printBye();
                 System.exit(0);
             }
@@ -737,6 +740,10 @@ public class LegendsOfValor extends MonsterGame {
         System.out.println(board.toString());
         int round = 0;
         while(!IsOver()) {
+        	for(Hero hero:Heros ){
+        		hero.addHp((int) (hero.getHp()*0.1));
+        		hero.addMana((int) (hero.getMana()*0.1));
+        	}
             doHerosTurn();
             doVillainsTurn();
             round++;
@@ -744,7 +751,7 @@ public class LegendsOfValor extends MonsterGame {
                 spawnMonsters();
                 round =0;
             }
-            //regain hero hp and mana
+            
             //respawn dead heros at nexus
         }
         if(isHeroWin()){
