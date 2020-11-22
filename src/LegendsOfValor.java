@@ -14,7 +14,7 @@ public class LegendsOfValor extends MonsterGame {
 
     public final int LOV_VILLAIN_NEXUS_ROW = 0;
 
-    public final int LOV_NUM_LANES = (LOV_COLUMNS + 1) /3;
+    public final static int LOV_NUM_LANES = (LOV_COLUMNS + 1) /3;
 
     private LOVBoard board;
     private ArrayList<Hero> HeroList = new ArrayList<Hero>();
@@ -25,7 +25,7 @@ public class LegendsOfValor extends MonsterGame {
     //true means that we can start checking if winCond is equal to or greater than 0
 
     public LegendsOfValor(){
-        super(new LOVHeroFactory(new Scanner(System.in)), new ArrayList<Monster>(),new MonsterFactory(),new LOVBoardFactory(),LOV_ROWS,LOV_COLUMNS);
+        super(new LOVHeroFactory(new Scanner(System.in), LOV_NUM_LANES), new ArrayList<Monster>(),new MonsterFactory(),new LOVBoardFactory(),LOV_ROWS,LOV_COLUMNS);
         this.board = (LOVBoard) (super.board);
         this.winCond = 0;
         this.Nexi_occupied = 0;
@@ -73,16 +73,54 @@ public class LegendsOfValor extends MonsterGame {
 
     private void gameBegin(){
         //Effect: Creates game
-        int i =0;
+
+        ArrayList<Integer> lanes= new ArrayList<Integer>();
+        for(int j = 0; j < LOV_NUM_LANES;){
+            j++;
+            lanes.add(j);
+        }
         for(Hero hero:Heros ){
+            int i = selectLane(hero, lanes);
             hero.setCreaturePosition(board, LOV_HERO_NEXUS_ROW,i*LOV_LANE_SIZE);
             Monster monster = allMonsters.generateMonster(1,hero.level).get(0).clone();
             monster.setMarker('M');
             monster.setCreaturePosition(board, LOV_VILLAIN_NEXUS_ROW, i*LOV_LANE_SIZE);
             monsterList.add(monster);
             board.getCell(LOV_HERO_NEXUS_ROW,i*LOV_LANE_SIZE).setPositions(new char[]{hero.getMarker(), ' '});
-            board.getCell(LOV_VILLAIN_NEXUS_ROW,i++*LOV_LANE_SIZE).setPositions(new char[]{' ', monster.getMarker()});
+            board.getCell(LOV_VILLAIN_NEXUS_ROW,i*LOV_LANE_SIZE).setPositions(new char[]{' ', monster.getMarker()});
         }
+    }
+
+    private int selectLane(Hero hero, ArrayList<Integer> lanes){
+        int i =0;
+        if(lanes.size() == 1){
+            System.out.println(hero.getName() + "autoplaced in lane " + lanes.get(0).toString());
+            i = lanes.get(0);
+        }
+        else {
+
+            boolean valid_lane = false;
+
+            while (!valid_lane) {
+                System.out.println("");
+                System.out.println("Select which lane to add Hero!");
+                System.out.print("Current lanes: ");
+                for (Integer lane : lanes) {
+                    System.out.print(lane.toString() + " ");
+                }
+                System.out.println("");
+                System.out.println("Hero: " + hero.getName());
+                i = isInt();
+                if (lanes.contains(i)) {
+                    valid_lane = true;
+                    lanes.remove((Integer) i);
+                } else {
+                    System.out.println("Invalid input");
+                }
+            }
+        }
+        i--;
+        return i;
     }
 
     private void basicInfo(){
@@ -397,7 +435,7 @@ public class LegendsOfValor extends MonsterGame {
             }
         }else if(str.charAt(0) == 'b') {
             h.unequipArmor();
-            return true;
+            return false;
         }else if(str.charAt(0) == 'c') {
             if(h.getWeaponStore().size()==0) {
                 System.out.println("Sorry! "+h.getName()+"does not have enough weapon to equip! Please buy in Market!");
@@ -408,6 +446,7 @@ public class LegendsOfValor extends MonsterGame {
             }
         }else if(str.charAt(0) == 'd') {
             h.unequipWeapon();
+            return false;
         }else if(str.charAt(0) == 'e') {
             if(h.getSpellStore().size()==0) {
                 System.out.println("Sorry! "+h.getName()+"does not have enough spell to equip! Please buy in Market!");
@@ -418,7 +457,7 @@ public class LegendsOfValor extends MonsterGame {
             }
         }else if(str.charAt(0) == 'd') {
             h.unequipSpell();
-            return true;
+            return false;
         }else {
             Patterns.printBye();
             System.exit(0);
@@ -579,6 +618,11 @@ public class LegendsOfValor extends MonsterGame {
                 return false;
             } else {
                 LOVCell old = board.getCell(hero.getRow(), hero.getCol());
+                char monsterSpot = old.getPositions()[1];
+                if (monsterSpot != ' '){
+                    System.out.println("Cannot move past a monster! Try killing it!");
+                    return false;
+                }
                 if(old.getCellType() == 'V'){
                     Nexi_occupied--;
                     winCond--;

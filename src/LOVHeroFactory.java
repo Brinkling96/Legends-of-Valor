@@ -5,12 +5,15 @@ import java.util.Scanner;
 
 public class LOVHeroFactory extends MAHHeroFactory {
 
-    public LOVHeroFactory(Scanner in) {
+    private int hero_num;
+
+    public LOVHeroFactory(Scanner in, int hero_num) {
         super(in);
+        this.hero_num= hero_num;
     }
 
     @Override
     protected int promptHeroCount() {
-        return 3;
+        return hero_num;
     }
 }
