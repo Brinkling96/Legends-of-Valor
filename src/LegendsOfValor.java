@@ -19,7 +19,7 @@ public class LegendsOfValor extends MonsterGame {
     public final int LOV_MONSTER_RESPAWN_RATE = 1;
 
     private LOVBoard board;
-    private ArrayList<Hero> HeroList = new ArrayList<Hero>();
+    //private ArrayList<Hero> HeroList = new ArrayList<Hero>();
 
     private int winCond;
     //if a nexus is occupied, if wincon<0 villains win, else heros
@@ -43,12 +43,12 @@ public class LegendsOfValor extends MonsterGame {
 		Patterns.printIntro();
 		String y = in.next();
 		if(y.equals("YES")|| y.equals("yes")) {
-			basicInfoLOV();
+			basicInfo();
 		}
 		Patterns.printGameBegin();
     }
 
-    public static void basicInfoLOV() {
+    public static void basicInfo() {
 		System.out.println("	Basic Information:");
 		System.out.println("	=====================\n");
 		System.out.println("	For movement:	W - move forward");
@@ -125,9 +125,6 @@ public class LegendsOfValor extends MonsterGame {
         return i;
     }
 
-    private void basicInfo(){
-        //Effect: Explains game in Terminal
-    }
 
     private void heroSelect(){
         //Effect: Selects heros to play in the game
