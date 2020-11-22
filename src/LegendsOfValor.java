@@ -223,6 +223,10 @@ public class LegendsOfValor extends MonsterGame {
                 Patterns.printBye();
                 System.exit(0);
             }
+            else{
+                System.out.println("Invalid input");
+                return false;
+            }
 
         }
 
