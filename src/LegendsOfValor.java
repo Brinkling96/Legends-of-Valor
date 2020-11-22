@@ -16,6 +16,8 @@ public class LegendsOfValor extends MonsterGame {
 
     public final static int LOV_NUM_LANES = (LOV_COLUMNS + 1) /3;
 
+    public final int LOV_MONSTER_RESPAWN_RATE = 1;
+
     private LOVBoard board;
     private ArrayList<Hero> HeroList = new ArrayList<Hero>();
 
@@ -86,8 +88,8 @@ public class LegendsOfValor extends MonsterGame {
             monster.setMarker('M');
             monster.setCreaturePosition(board, LOV_VILLAIN_NEXUS_ROW, i*LOV_LANE_SIZE);
             monsterList.add(monster);
-            board.getCell(LOV_HERO_NEXUS_ROW,i*LOV_LANE_SIZE).setPositions(new char[]{hero.getMarker(), ' '});
-            board.getCell(LOV_VILLAIN_NEXUS_ROW,i*LOV_LANE_SIZE).setPositions(new char[]{' ', monster.getMarker()});
+            //board.getCell(LOV_HERO_NEXUS_ROW,i*LOV_LANE_SIZE).setPositions(new char[]{hero.getMarker(), ' '});
+            //board.getCell(LOV_VILLAIN_NEXUS_ROW,i*LOV_LANE_SIZE).setPositions(new char[]{' ', monster.getMarker()});
         }
     }
 
@@ -134,7 +136,7 @@ public class LegendsOfValor extends MonsterGame {
     private void doHerosTurn(){
         for(Hero hero: Heros) {
             while(!HeroAction(hero));
-            System.out.println(board.toString());
+            //System.out.println(board.toString());
         }
     }
 
@@ -691,6 +693,39 @@ public class LegendsOfValor extends MonsterGame {
     }
 
 
+    public void spawnMonsters(){
+        int max_lvl = 1;
+        int i = 0;
+        for(Hero hero: Heros){
+            if (max_lvl >hero.getLv()){
+                max_lvl = hero.getLv();
+            }
+            i++;
+
+        }
+        ArrayList<Monster> respawnlist = allMonsters.generateMonster(i++,max_lvl);
+        i = 0;
+        for(Monster mob: respawnlist){
+            mob.setMarker('M');
+            boolean noSpawn = false;
+            LOVCell cell= board.getCell(LOV_VILLAIN_NEXUS_ROW, i*LOV_LANE_SIZE);
+            if (cell.getPositions()[1] != ' '){
+                cell = board.getCell(LOV_VILLAIN_NEXUS_ROW ,(i*LOV_LANE_SIZE)+1);
+                if (cell.getPositions()[1] != ' '){
+                    System.out.println("No place to spawn!");
+                    noSpawn = true;
+                }
+            }
+            i++;
+            if(!noSpawn) {
+                System.out.println( mob.getName() + " arrives at lane "+ (i));
+                monsterList.add(mob);
+                mob.setCreaturePosition(board,cell.getRow(),cell.getCol());
+            }
+        }
+    }
+
+
 
 
     @Override
@@ -698,9 +733,17 @@ public class LegendsOfValor extends MonsterGame {
 
         gameBegin();
         System.out.println(board.toString());
+        int round = 0;
         while(!IsOver()) {
             doHerosTurn();
             doVillainsTurn();
+            round++;
+            if(round == LOV_MONSTER_RESPAWN_RATE){
+                spawnMonsters();
+                round =0;
+            }
+            //regain hero hp and mana
+            //respawn dead heros at nexus
         }
         if(isHeroWin()){
             System.out.println("Heros win!");
