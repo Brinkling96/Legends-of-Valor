@@ -5,6 +5,17 @@ import java.util.Scanner;
 
 public class LegendsOfValor extends MonsterGame {
 
+
+    public final static int LOV_ROWS = 8;
+    public final static int LOV_COLUMNS = 8;
+    public final int LOV_LANE_SIZE = 3;
+
+    public final int LOV_HERO_NEXUS_ROW = LOV_ROWS -1;
+
+    public final int LOV_VILLAIN_NEXUS_ROW = 0;
+
+    public final int LOV_NUM_LANES = (LOV_COLUMNS + 1) /3;
+
     private LOVBoard board;
     private ArrayList<Hero> HeroList = new ArrayList<Hero>();
 
@@ -14,7 +25,7 @@ public class LegendsOfValor extends MonsterGame {
     //true means that we can start checking if winCond is equal to or greater than 0
 
     public LegendsOfValor(){
-        super(new LOVHeroFactory(new Scanner(System.in)), new ArrayList<Monster>(),new MonsterFactory(),new LOVBoardFactory(),8,8);
+        super(new LOVHeroFactory(new Scanner(System.in)), new ArrayList<Monster>(),new MonsterFactory(),new LOVBoardFactory(),LOV_ROWS,LOV_COLUMNS);
         this.board = (LOVBoard) (super.board);
         this.winCond = 0;
         this.Nexi_occupied = 0;
@@ -64,13 +75,13 @@ public class LegendsOfValor extends MonsterGame {
         //Effect: Creates game
         int i =0;
         for(Hero hero:Heros ){
-            hero.setCreaturePosition(board, 7,i*3);
+            hero.setCreaturePosition(board, LOV_HERO_NEXUS_ROW,i*LOV_LANE_SIZE);
             Monster monster = allMonsters.generateMonster(1,hero.level).get(0).clone();
             monster.setMarker('M');
-            monster.setCreaturePosition(board, 0, i*3);
+            monster.setCreaturePosition(board, LOV_VILLAIN_NEXUS_ROW, i*LOV_LANE_SIZE);
             monsterList.add(monster);
-            board.getCell(7,i*3).setPositions(new char[]{hero.getMarker(), ' '});
-            board.getCell(0,i++*3).setPositions(new char[]{' ', monster.getMarker()});
+            board.getCell(LOV_HERO_NEXUS_ROW,i*LOV_LANE_SIZE).setPositions(new char[]{hero.getMarker(), ' '});
+            board.getCell(LOV_VILLAIN_NEXUS_ROW,i++*LOV_LANE_SIZE).setPositions(new char[]{' ', monster.getMarker()});
         }
     }
 
@@ -119,7 +130,8 @@ public class LegendsOfValor extends MonsterGame {
             if(tgt.isDead()){
                 System.out.println(tgt.getName() + " is dead");
                 cleanUpOldCell(board.getCell(tgt.row,tgt.col), tgt.getMarker());
-                tgt.setCreaturePosition(board, 7, tgt.getCol());
+                tgt.setCreaturePosition(board, LOV_HERO_NEXUS_ROW, tgt.getCol());
+                //need to add check if position is occupied by hero
             }
             return true;
         }
@@ -190,7 +202,7 @@ public class LegendsOfValor extends MonsterGame {
         System.out.println("Which lane you want teleport to?");
         System.out.print("[1]Top lane   [2]Mid lane     [3]Bottom lane : ");
         int lane = isInt();
-        while(lane<1||lane>3){
+        while(lane<1||lane>LOV_NUM_LANES){
             System.out.print("Invalid input! Please enter a number to choose from 3 lanes: ");
     		in.nextLine();
     		lane = isInt();
@@ -201,7 +213,7 @@ public class LegendsOfValor extends MonsterGame {
                 return false;
             }else{
             	LOVCell old = board.getCell(hero.getRow(),hero.getCol());
-                cleanUpOldCell(old,'1');
+                cleanUpOldCell(old,hero.getMarker());
             	if(!board.checkCellAccess(hero.getRow(), 0)) {
             		hero.setCreaturePosition(board, hero.getRow(), 0);
             	}else if(!board.checkCellAccess(hero.getRow(), 1)) {
@@ -241,7 +253,7 @@ public class LegendsOfValor extends MonsterGame {
                 return false;
             }else{
             	LOVCell old = board.getCell(hero.getRow(),hero.getCol());
-                cleanUpOldCell(old,'1');
+                cleanUpOldCell(old,hero.getMarker());
             	if(!board.checkCellAccess(hero.getRow(), 6)) {
             		hero.setCreaturePosition(board, hero.getRow(), 6);
             	}else if(!board.checkCellAccess(hero.getRow(), 7)) {
@@ -311,7 +323,7 @@ public class LegendsOfValor extends MonsterGame {
     }
 
     private boolean doInventoryThings(Hero hero){
-        while(true) {
+        do{
             System.out.println("[D]isplay Inventory   Use [P]otion  Equip [I]tem");
             String str2 = in.next();
             str2 = str2.toLowerCase();
@@ -322,7 +334,10 @@ public class LegendsOfValor extends MonsterGame {
             } else if (str2.charAt(0) == 'i') {
                 return equipItem(hero);
             }
-        }
+            else{
+                System.out.println("Invalid input!");
+            }
+        }while(true);
     }
 
     private boolean Inventory(Hero hero) {
@@ -530,9 +545,17 @@ public class LegendsOfValor extends MonsterGame {
         if(cell.getCellType() == '&'){
             System.out.println("Inaccessible spot!");
             return false;
-        }else if(c.getMarker()==pos[0] || c.getMarker()==pos[1]) {
-        	System.out.println("No avalible spot");
-        	return false;
+        }
+        if(c instanceof Hero) {
+            if (pos[0]!= ' ') {
+
+            }
+        }
+        else if(c instanceof Monster){
+            if(pos[1] != ' '){
+                System.out.println("No avalible spot");
+                return false;
+            }
         }
         return true;
     }
