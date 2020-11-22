@@ -1,7 +1,7 @@
 package src;
 
 public class MoveUPCommand implements MoveCommand{
-
+	// the class represent command for move up 
     public MoveUPCommand() {
     }
 

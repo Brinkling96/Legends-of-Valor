@@ -2,6 +2,7 @@ package src;
 
 import java.util.Random;
 
+//the class initialize Board for Monster and Hero game
 public class MonsterAndHerosBoardFactory implements BoardFactory{
     @Override
     public Board createBoard(int rowNum, int colNum) {

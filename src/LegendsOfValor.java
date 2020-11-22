@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class LegendsOfValor extends MonsterGame {
-
+	//the class represents the Legand of Valor game
 
     public final static int LOV_ROWS = 8;
     public final static int LOV_COLUMNS = 8;
@@ -19,7 +19,6 @@ public class LegendsOfValor extends MonsterGame {
     public final int LOV_MONSTER_RESPAWN_RATE = 1;
 
     private LOVBoard board;
-    private ArrayList<Hero> HeroList = new ArrayList<Hero>();
 
     private int winCond;
     //if a nexus is occupied, if wincon<0 villains win, else heros
@@ -43,12 +42,12 @@ public class LegendsOfValor extends MonsterGame {
 		Patterns.printIntro();
 		String y = in.next();
 		if(y.equals("YES")|| y.equals("yes")) {
-			basicInfoLOV();
+			basicInfo();
 		}
 		Patterns.printGameBegin();
     }
 
-    public static void basicInfoLOV() {
+    public static void basicInfo() {
 		System.out.println("	Basic Information:");
 		System.out.println("	=====================\n");
 		System.out.println("	For movement:	W - move forward");
@@ -125,9 +124,6 @@ public class LegendsOfValor extends MonsterGame {
         return i;
     }
 
-    private void basicInfo(){
-        //Effect: Explains game in Terminal
-    }
 
     private void heroSelect(){
         //Effect: Selects heros to play in the game
@@ -158,6 +154,7 @@ public class LegendsOfValor extends MonsterGame {
         System.out.println("[F]Fight monster nearby     [T]Teleport");
         System.out.println("[I]Inventory        [Z]Status");
 		System.out.println("[B]Back to nexus        [M]Shopping in the nexus");
+		System.out.println("[;]Skip turn");
         System.out.println("or [Q]Quit the game");
         boolean input = CheckInput(hero);
         return input;
@@ -170,8 +167,27 @@ public class LegendsOfValor extends MonsterGame {
             if(tgt.isDead()){
                 System.out.println(tgt.getName() + " is dead");
                 cleanUpOldCell(board.getCell(tgt.row,tgt.col), tgt.getMarker());
-                tgt.setCreaturePosition(board, LOV_HERO_NEXUS_ROW, tgt.getCol());
-                //need to add check if position is occupied by hero
+                int i = 0;
+                while(i<8) {
+                	if(tgt.getCol()==i||tgt.getCol()==i+1) {
+                    	if(!board.checkCellAccess(LOV_HERO_NEXUS_ROW, i)) {
+                        	tgt.setCreaturePosition(board, LOV_HERO_NEXUS_ROW, i);
+                        	break;
+                        }else if(!board.checkCellAccess(LOV_HERO_NEXUS_ROW, i+1)) {
+                        	tgt.setCreaturePosition(board, LOV_HERO_NEXUS_ROW, i+1);
+                        	break;
+                        }else if(!board.checkCellAccess(LOV_HERO_NEXUS_ROW, i+3)){
+                        	tgt.setCreaturePosition(board, LOV_HERO_NEXUS_ROW, i+3);
+                        	break;
+                        }else if(!board.checkCellAccess(LOV_HERO_NEXUS_ROW, i-3)){
+                        	tgt.setCreaturePosition(board, LOV_HERO_NEXUS_ROW, i-3);
+                        	break;
+                        }
+                    }
+                	i +=3;
+                }          
+                tgt.addHp((tgt.getLv()*100)/2);
+                System.out.println(tgt.getName() + " is back to Nexus!");
             }
             return true;
         }
@@ -196,30 +212,31 @@ public class LegendsOfValor extends MonsterGame {
 
     private boolean CheckInput(Hero hero){
         String str = in.next();
-        str = str.toLowerCase();
         while(true){
-            if(str.charAt(0)== 'w'){
+            if(str.charAt(0)== 'w'||str.charAt(0)== 'W'){
                 return moveHero(new MoveUPCommand(), hero);
-            }else if(str.charAt(0)== 'a'){
+            }else if(str.charAt(0)== 'a'||str.charAt(0)== 'A'){
                 return moveHero(new MoveLeftCommand(), hero);
-            }else if(str.charAt(0)== 's'){
+            }else if(str.charAt(0)== 's'||str.charAt(0)== 'S'){
                 return moveHero(new MoveDownCommand(), hero);
-            }else if(str.charAt(0)== 'd'){
+            }else if(str.charAt(0)== 'd'||str.charAt(0)== 'D'){
                 return moveHero(new MoveRightCommand(), hero);
-            }else if(str.charAt(0)== 'f'){
+            }else if(str.charAt(0)== 'f'||str.charAt(0)== 'F'){
                return dofight(hero);
-            }else if(str.charAt(0)== 't'){
+            }else if(str.charAt(0)== 't'||str.charAt(0)== 'T'){
                 return Teleport(hero);
-            }else if(str.charAt(0)== 'i'){
+            }else if(str.charAt(0)== 'i'||str.charAt(0)== 'I'){
                 return doInventoryThings(hero);
-            }else if(str.charAt(0)== 'z'){
+            }else if(str.charAt(0)== 'z'||str.charAt(0)== 'Z'){
             	hero.printSingleHero(hero);
             	return false;
-            }else if(str.charAt(0)== 'b'){
+            }else if(str.charAt(0)== 'b'||str.charAt(0)== 'B'){
             	return BackNexus(hero);
-            }else if(str.charAt(0)== 'm'){
+            }else if(str.charAt(0)== 'm'||str.charAt(0)== 'M'){
             	return ShopInNexus(hero);
-            }else if(str.charAt(0)== 'q'){
+            }else if(str.charAt(0)== ';') {
+            	return true;
+            }else if(str.charAt(0)== 'q'||str.charAt(0)== 'Q'){
                 Patterns.printBye();
                 System.exit(0);
             }
@@ -227,9 +244,7 @@ public class LegendsOfValor extends MonsterGame {
                 System.out.println("Invalid input");
                 return false;
             }
-
         }
-
     }
 
 
@@ -560,9 +575,9 @@ public class LegendsOfValor extends MonsterGame {
         return null;
     }
 
-    private void displayTargets(ArrayList<Monster> tgts, MonsterFactory fc){
-        fc.printMonster(tgts);
-    }
+//    private void displayTargets(ArrayList<Monster> tgts, MonsterFactory fc){
+//        fc.printMonster(tgts);
+//    }
 
     private Monster chooseFromMonster(ArrayList<Monster> monster) {
         allMonsters.printMonster(monster);
@@ -578,8 +593,7 @@ public class LegendsOfValor extends MonsterGame {
         }
         if(num == -1){
             return null;
-        }
-        else {
+        }else {
             Monster m = monster.get(num);
             return m;
         }
@@ -706,7 +720,6 @@ public class LegendsOfValor extends MonsterGame {
                 max_lvl = hero.getLv();
             }
             i++;
-
         }
         ArrayList<Monster> respawnlist = allMonsters.generateMonster(i++,max_lvl);
         i = 0;
@@ -740,6 +753,10 @@ public class LegendsOfValor extends MonsterGame {
         System.out.println(board.toString());
         int round = 0;
         while(!IsOver()) {
+        	for(Hero hero:Heros ){
+        		hero.addHp((int) (hero.getHp()*0.1));
+        		hero.addMana((int) (hero.getMana()*0.1));
+        	}
             doHerosTurn();
             doVillainsTurn();
             round++;
@@ -747,13 +764,10 @@ public class LegendsOfValor extends MonsterGame {
                 spawnMonsters();
                 round =0;
             }
-            //regain hero hp and mana
-            //respawn dead heros at nexus
         }
         if(isHeroWin()){
             Patterns.printVictory();
-        }
-        else{
+        }else{
             Patterns.printDefeat();
         }
         Patterns.printBye();

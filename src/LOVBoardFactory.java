@@ -1,7 +1,7 @@
 package src;
 
 import java.util.Random;
-
+//the class initialize board of LOV game
 public class LOVBoardFactory implements BoardFactory {
     @Override
     public Board createBoard(int rowNum, int colNum) {

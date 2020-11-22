@@ -1,12 +1,10 @@
 package src;
 
-
-
 import java.util.ArrayList;
 import java.util.Vector;
 
 public class LOVBoard extends Board{
-
+	//the class represents board of Legeand of Valor game
     public LOVBoard(Cell[][] board, int rowNum, int colNum) {
         super(board, rowNum, colNum);
     }
@@ -35,7 +33,7 @@ public class LOVBoard extends Board{
     public boolean checkCellAccess(int row, int col){
 		LOVCell temp = getCell(row, col);
         char[] pos = temp.getPositions();
-        if(!(pos[0] == ' ')) {
+        if(pos[0] != ' ' || row>7 || col>7 || row<0 || col<0) {
 			return true;
 		}else {
 			return false;

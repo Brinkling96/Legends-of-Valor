@@ -1,6 +1,7 @@
 package src;
 
 public class LOVKoulouCell extends LOVCell {
+	// the class represent Koulou cells which extend LOVCell
     public LOVKoulouCell(int row, int col) {
         super(row, col, 'K');
     }
