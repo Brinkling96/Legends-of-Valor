@@ -212,7 +212,6 @@ public class LegendsOfValor extends MonsterGame {
 
     private boolean CheckInput(Hero hero){
         String str = in.next();
-        //str = str.toLowerCase();
         while(true){
             if(str.charAt(0)== 'w'||str.charAt(0)== 'W'){
                 return moveHero(new MoveUPCommand(), hero);
@@ -576,9 +575,9 @@ public class LegendsOfValor extends MonsterGame {
         return null;
     }
 
-    private void displayTargets(ArrayList<Monster> tgts, MonsterFactory fc){
-        fc.printMonster(tgts);
-    }
+//    private void displayTargets(ArrayList<Monster> tgts, MonsterFactory fc){
+//        fc.printMonster(tgts);
+//    }
 
     private Monster chooseFromMonster(ArrayList<Monster> monster) {
         allMonsters.printMonster(monster);
@@ -594,8 +593,7 @@ public class LegendsOfValor extends MonsterGame {
         }
         if(num == -1){
             return null;
-        }
-        else {
+        }else {
             Monster m = monster.get(num);
             return m;
         }
@@ -722,7 +720,6 @@ public class LegendsOfValor extends MonsterGame {
                 max_lvl = hero.getLv();
             }
             i++;
-
         }
         ArrayList<Monster> respawnlist = allMonsters.generateMonster(i++,max_lvl);
         i = 0;
@@ -770,8 +767,7 @@ public class LegendsOfValor extends MonsterGame {
         }
         if(isHeroWin()){
             Patterns.printVictory();
-        }
-        else{
+        }else{
             Patterns.printDefeat();
         }
         Patterns.printBye();
