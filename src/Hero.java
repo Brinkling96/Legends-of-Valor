@@ -16,12 +16,9 @@ public class Hero extends Creature implements HeroAttack{
     protected int cellAgi;
     protected int cellDex;
 
-
-
     private int money;
     private int exp;
     private String heroType;
-    private int heroNum;
 	
     private Item_Weapon curWeapon = null;
     private Item_Armor curArmor = null;

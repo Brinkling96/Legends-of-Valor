@@ -14,9 +14,7 @@ public class Creature{
 
 	protected char marker;
 
-
-	 
-	 
+	
 	 public Creature(String name, int level){
 		 this.name = name;
 		 this.level = level;

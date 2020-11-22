@@ -35,7 +35,7 @@ public class LOVBoard extends Board{
     public boolean checkCellAccess(int row, int col){
 		LOVCell temp = getCell(row, col);
         char[] pos = temp.getPositions();
-        if(!(pos[0] == ' ')) {
+        if(pos[0] != ' ' || row>7 || col>7 || row<0 || col<0) {
 			return true;
 		}else {
 			return false;

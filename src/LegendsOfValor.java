@@ -19,7 +19,6 @@ public class LegendsOfValor extends MonsterGame {
     public final int LOV_MONSTER_RESPAWN_RATE = 1;
 
     private LOVBoard board;
-    //private ArrayList<Hero> HeroList = new ArrayList<Hero>();
 
     private int winCond;
     //if a nexus is occupied, if wincon<0 villains win, else heros
@@ -168,8 +167,27 @@ public class LegendsOfValor extends MonsterGame {
             if(tgt.isDead()){
                 System.out.println(tgt.getName() + " is dead");
                 cleanUpOldCell(board.getCell(tgt.row,tgt.col), tgt.getMarker());
-                tgt.setCreaturePosition(board, LOV_HERO_NEXUS_ROW, tgt.getCol());
-                //need to add check if position is occupied by hero
+                int i = 0;
+                while(i<8) {
+                	if(tgt.getCol()==i||tgt.getCol()==i+1) {
+                    	if(!board.checkCellAccess(LOV_HERO_NEXUS_ROW, i)) {
+                        	tgt.setCreaturePosition(board, LOV_HERO_NEXUS_ROW, i);
+                        	break;
+                        }else if(!board.checkCellAccess(LOV_HERO_NEXUS_ROW, i+1)) {
+                        	tgt.setCreaturePosition(board, LOV_HERO_NEXUS_ROW, i+1);
+                        	break;
+                        }else if(!board.checkCellAccess(LOV_HERO_NEXUS_ROW, i+3)){
+                        	tgt.setCreaturePosition(board, LOV_HERO_NEXUS_ROW, i+3);
+                        	break;
+                        }else if(!board.checkCellAccess(LOV_HERO_NEXUS_ROW, i-3)){
+                        	tgt.setCreaturePosition(board, LOV_HERO_NEXUS_ROW, i-3);
+                        	break;
+                        }
+                    }
+                	i +=3;
+                }          
+                tgt.addHp((tgt.getLv()*100)/2);
+                System.out.println(tgt.getName() + " is back to Nexus!");
             }
             return true;
         }
@@ -227,9 +245,7 @@ public class LegendsOfValor extends MonsterGame {
                 System.out.println("Invalid input");
                 return false;
             }
-
         }
-
     }
 
 
@@ -751,8 +767,6 @@ public class LegendsOfValor extends MonsterGame {
                 spawnMonsters();
                 round =0;
             }
-            
-            //respawn dead heros at nexus
         }
         if(isHeroWin()){
             Patterns.printVictory();
