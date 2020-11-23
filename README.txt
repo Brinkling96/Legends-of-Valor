@@ -2,7 +2,16 @@ Xinyi Zhao
 email:zxy1307@bu.edu
 id:U76496954
 
-Execution instruction:
+Sean Brady
+email: sdbrady9@bu.edu
+
+
+
+Execution instruction for Legends of Valor:
+
+Setup:
+Select 2 to run Legends of Valor
+
 Run in the terminal, first you can see the welcome message and introduction of the game, and also 
 some small patterns. The type YES/yes to know some basic information, or anything else to start 
 the game.
@@ -13,33 +22,32 @@ D - move right
 Q - quit game
 I - show information
 If you choose to see that information, the you need to enter start/START to begin game.
-You need to enter 1-3 to choose how many heroes you want, then it will print all heroes that you 
+You need to choose the heros you want, then it will print all heroes that you 
 can choose from, group by their types. Then you need to enter the number before the hero to choose
 that hero. After choosing, it will print all your team members and their information.
-Then, it's time for moving!
-It will show a board, M is market, & is nonaccessable place, and X is your team's location.
-If you went to a empty space, there's 75% to meet enemy, and else is safe place, that you can check 
-your team's status and just continue moving. If you choose C/c for checking status, you can check 
-your team status, equip armor or weapon, check inventory, use Potion or quit the game.
 
-If you meet enemies, there will first show infotmation about enemy's troop, and information about
-your team. Then round 1, first member in your team to enter a number to choose an enemy to fight, 
-In the fight, he can use[A]Attack [C]Cast Spell [U]Use Potion [E]Equip Armor/Weapon Or [Q]Quit Game.
-If hero/monster 's hp equal to 0, he defeated. Then second member in your team to choose enemy, 
-and fight. And then third... 
-If one team member dies in a round, he cannot fight any more, and need to wait to until the whole 
-fight ending. If no one in your team can fight, you defeated. If your team still have heroes and 
-all monsters are defeated, you win the fight, and live heroes got money and experience. After that,
-defeated heroes recovered by half of hp, and can continue moving.
+You will then choose which lane to place each of your selected heros.
 
-If you meet a market, you can enter I/i to check inventory(every heroes has what weapon/armor/spell/
-potion) and their money and level. or anything else to enter market.
-Then you need to enter a number to choose which hero to visit the market. You can [B]buy [S]sell 
-or [L]Leave market. if you choose buy, you can choose from [W]Weapon [A]Armor [P]Potion [S]Spell
+Then, it's time for the game!
+
+Board:
+It will show a board, V is the Monster Nexus, P is a plain cell, B is a bush cell, C is a cave cell, K is a Koulou cell, & is a inacessible cell. Inside each cell cand be a Hero, represented by 1 2 or 3, or a Monster represented by M. X are placed in & cells to indicate you cannot move there.
+
+Hero Action:
+Each round each hero is given a chance to do an action. Followed by the Monsters turn to act. Heros can move, use potions, equip items, Teleport to another lane, goback to that lanes nexus and fight to end thier turn. Heros can also shop while at a nexus and check they thier inventory and unequip items at the cost of no action. A user can quit the game at any time as well during this action selection menu.
+
+Fight:
+If you decide to fight, there will first show infotmation about enemy's troop in range. Then the hero enters a number to choose an enemy to fight in range. 
+In the fight, he can use[A]Attack [C]Cast Spell Or [Q]Quit Game.
+If hero/monster 's hp equal to 0, he defeated. If it is a monster, the monster is removed from the game and the hero collects xp and money.
+If one team member dies in a round, he will be moved back to the hero nexus.
+
+Market:
+You can [B]buy [S]sell or [L]Leave market. if you choose buy, you can choose from [W]Weapon [A]Armor [P]Potion [S]Spell
 or [B]Back to Market.
 Once you left market, you can enter m to display map or else to continue moving.
 
-The game will not end, unless you enter Q/q to quit the game. Your heroes can gain infinit hp and
+The game will not end, unless you enter Q/q to quit the game or if a hero or monster reaches the opponent's Nexus. Your heroes can gain infinit hp and
 mana, but their max level is 10, and after they get lv10, their hp and mana will multiple by 1.5
 when they "level up".
 
@@ -49,9 +57,8 @@ monsters and items from file, the address is "src/Legends_Monster_Hero/filename.
 
 class:
 
-Board: the class represents the board of the game
-Cell: the class represents the cells of board with row and column, and the type of the cell which 
-is M/&/X and empty.
+LOVBoard: the class represents the board of the game
+LOVCell: the class represents the cells of board with row and column. The Cell is subtyped with each having unique behavior of temporarly boosting a heros stats.
 
 Creature: the class represents creatures in the game which includes hero and monster
 
@@ -60,7 +67,7 @@ Hero: the class extends Creature class, implements HeroAttack interface, and rep
 Hero_Paladins: sub class of Hero class, which represent hero Paladins
 Hero_Sorcerers: sub class of Hero class, which represent hero Sorcerers
 Hero_Warriors: sub class of Hero class, which represent hero Warriors
-HeroFactory: the class initializes all heroes
+LOVHeroFactory: the class initializes all heroes for LOV
 
 MonsterAttack: interface represents that monsters can attack
 Monster: the class extends Creature class, implements MonsterAttack interface, and represents 
@@ -78,7 +85,7 @@ Item_Potion: sub class of Item class, and represents item potion
 Item_Spell:sub class of Item class, and represents item spell
 Market: the class initializes all items.
 
-Team:the class represents the team of heroes chosen by player
-Game: abstract class for the game
-MonsterAndHeroes: the class represets the monster and heroes game which extends the Game class
+
+Monster Game: abstract class for the game (MAH and LOV)
+LegendsOfValor: the class represets the monster and heroes game which extends the Monster Game class
 Patterns: the class print some patterns of output
