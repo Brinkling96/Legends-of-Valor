@@ -16,7 +16,7 @@ public class LegendsOfValor extends MonsterGame {
 
     public final static int LOV_NUM_LANES = (LOV_COLUMNS + 1) /3;
 
-    public final int LOV_MONSTER_RESPAWN_RATE = 1;
+    public final int LOV_MONSTER_RESPAWN_RATE = 8;
 
     private LOVBoard board;
 
