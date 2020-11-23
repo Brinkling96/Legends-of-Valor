@@ -16,7 +16,7 @@ public class LegendsOfValor extends MonsterGame {
 
     public final static int LOV_NUM_LANES = (LOV_COLUMNS + 1) /3;
 
-    public final int LOV_MONSTER_RESPAWN_RATE = 1;
+    public final int LOV_MONSTER_RESPAWN_RATE = 8;
 
     private LOVBoard board;
 
@@ -74,7 +74,7 @@ public class LegendsOfValor extends MonsterGame {
 
     private void gameBegin(){
         //Effect: Creates game
-
+    	intro();
         ArrayList<Integer> lanes= new ArrayList<Integer>();
         for(int j = 0; j < LOV_NUM_LANES;){
             j++;
@@ -87,8 +87,8 @@ public class LegendsOfValor extends MonsterGame {
             monster.setMarker('M');
             monster.setCreaturePosition(board, LOV_VILLAIN_NEXUS_ROW, i*LOV_LANE_SIZE);
             monsterList.add(monster);
-            //board.getCell(LOV_HERO_NEXUS_ROW,i*LOV_LANE_SIZE).setPositions(new char[]{hero.getMarker(), ' '});
-            //board.getCell(LOV_VILLAIN_NEXUS_ROW,i*LOV_LANE_SIZE).setPositions(new char[]{' ', monster.getMarker()});
+            board.getCell(LOV_HERO_NEXUS_ROW,i*LOV_LANE_SIZE).setPositions(new char[]{hero.getMarker(), ' '});
+            board.getCell(LOV_VILLAIN_NEXUS_ROW,i*LOV_LANE_SIZE).setPositions(new char[]{' ', monster.getMarker()});
         }
     }
 
@@ -124,15 +124,10 @@ public class LegendsOfValor extends MonsterGame {
         return i;
     }
 
-
-    private void heroSelect(){
-        //Effect: Selects heros to play in the game
-    }
-
     private void doHerosTurn(){
         for(Hero hero: Heros) {
             while(!HeroAction(hero));
-            //System.out.println(board.toString());
+            System.out.println(board.toString());
         }
     }
 
@@ -574,10 +569,6 @@ public class LegendsOfValor extends MonsterGame {
         }
         return null;
     }
-
-//    private void displayTargets(ArrayList<Monster> tgts, MonsterFactory fc){
-//        fc.printMonster(tgts);
-//    }
 
     private Monster chooseFromMonster(ArrayList<Monster> monster) {
         allMonsters.printMonster(monster);
