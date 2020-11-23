@@ -28,6 +28,7 @@ public class MonsterANDHeroes extends MonsterGame {
 		Patterns.printGameBegin();
 	}
 	public void GameBegin() {
+		intro();
 		MAHTeam.printTeam();
 		MAHTeam.setPosition(7,7);
 		board.setCelltype(7, 7, MAHTeam.getTeamCell());
